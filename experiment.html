@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My experiment</title>
+  <script src="utils.js"></script>
+  <script src="JsPsych/jspsych.js"></script>
+  <script src="JsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="JsPsych/plugins/jspsych-image-keyboard-response.js"></script>
+  <link rel="stylesheet" href="JsPsych/css/jspsych.css">
+  </link>
+</head>
+
+<body></body>
+<script>
+  /* create timeline */
+  var timeline = [];
+
+  /* define welcome message trial */
+  var welcome_block = {
+    type: "html-keyboard-response",
+    stimulus: "Welcome to the experiment. Press any key to begin."
+  };
+  timeline.push(welcome_block);
+
+  /* test trials */
+
+  var conditions = [{
+    stimulus: "fixation_blue.png",
+    ycorrect: [1, 2, 3, 4],
+    yincorrect: [1, 2, 3, 4],
+    data: {condition:'high'}
+  }];
+  var condition_low = [{
+    stimulus: "fixation_orange.png",
+    ycorrect: [1, 2, 3, 4],
+    yincorrect: [1, 2, 3, 4],
+    data: {condition:'low'}
+  }];
+  condition0 = generate_full_sequence(condition = condition_high, ntrial = 4, nblock = 2);
+  timeline.push(condition0);
+  condition1 = generate_full_sequence(condition = condition_low, ntrial = 4, nblock = 2);
+  timeline.push(condition1);
+
+  /* start the experiment */
+  jsPsych.init({
+    timeline: timeline,
+    preload_images: ['fixation_blue.png', 'fixation_orange.png'],
+    on_finish: function() {
+      jsPsych.data.displayData();
+    }
+  });
+</script>
+
+</html>
