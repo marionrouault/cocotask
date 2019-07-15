@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>My experiment</title>
+        <script src="src/utils.js"></script>
+        <script src="src/stimulus.js"></script>
+        <script src="JsPsych/jspsych.js"></script>
+        <script src="plugins/display2boxes.js"></script>
+        <script src="JsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="JsPsych/plugins/jspsych-image-keyboard-response.js"></script>
+        <link rel="stylesheet" href="JsPsych/css/jspsych.css">
+        <link rel="stylesheet" href="css/custom.css">
+  </link>
+    </head>
+
+    <body>
+        <div id='jspsych-target' style='width:800; height:auto; position:relative;'></div>
+        <canvas class="stimulusCanvas" width="300" height="300" id="stim0"></canvas>
+        <canvas class="stimulusCanvas" width="300" height="300" id="stim1"></canvas>
+        <canvas class="stimulusCanvas" width="300" height="300" id="stim2"></canvas>
+    </body>
+    <script>
+     /* create timeline */
+     var timeline = [];
+
+     var blankstim = drawStimulus("stim0", 0);
+
+     var dots = {
+         type: 'display2boxes', // previously image-keyboard-reponse-edited2
+         fixation_cue: 'img/fixation_blue.png',
+         fixation_cue_duration: 500,
+         stimuli: function(){
+             var rightstim = drawStimulus("stim1", 90);
+             var leftstim = drawStimulus("stim2", 45);
+             return [leftstim, rightstim]
+         },
+         blankstim: blankstim,
+         border_color: "#FF9005",
+         prompt: "<p>Press E if you see more points on the left. Press R if you see more points on the right.</p>",
+         choices: ['e','r'],
+         stimulus_duration:500,
+         gap_endtrial: 500,
+     }
+     timeline.push(dots)
+
+     /* start the experiment */
+     jsPsych.init({
+         timeline: timeline,
+         on_finish: function() {
+             jsPsych.data.displayData();
+         }
+     });
+    </script>
+
+</html>

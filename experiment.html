@@ -3,15 +3,24 @@
 
 <head>
   <title>My experiment</title>
-  <script src="utils.js"></script>
+  <script src="src/utils.js"></script>
+  <script src="src/stimulus.js"></script>
   <script src="JsPsych/jspsych.js"></script>
+  <script src="plugins/display2boxes.js"></script>
   <script src="JsPsych/plugins/jspsych-html-keyboard-response.js"></script>
   <script src="JsPsych/plugins/jspsych-image-keyboard-response.js"></script>
+  <script src="JsPsych/plugins/jspsych-survey-likert.js"></script>
   <link rel="stylesheet" href="JsPsych/css/jspsych.css">
+  <link rel="stylesheet" href="css/custom.css">
   </link>
 </head>
 
-<body></body>
+<body>
+    <div id='jspsych-target' style='width:800; height:auto; position:relative;'></div>
+    <canvas class="stimulusCanvas" width="300" height="300" id="stim0"></canvas>
+    <canvas class="stimulusCanvas" width="300" height="300" id="stim1"></canvas>
+    <canvas class="stimulusCanvas" width="300" height="300" id="stim2"></canvas>
+</body>
 <script>
   /* create timeline */
   var timeline = [];
@@ -25,14 +34,14 @@
 
   /* test trials */
 
-  var conditions = [{
-    stimulus: "fixation_blue.png",
+  var condition_high = [{
+    stimulus: "img/fixation_blue.png",
     ycorrect: [1, 2, 3, 4],
-    yincorrect: [1, 2, 3, 4],
+    yincorrect: [5, 6, 7, 8],
     data: {condition:'high'}
   }];
   var condition_low = [{
-    stimulus: "fixation_orange.png",
+    stimulus: "img/fixation_orange.png",
     ycorrect: [1, 2, 3, 4],
     yincorrect: [1, 2, 3, 4],
     data: {condition:'low'}
@@ -45,7 +54,7 @@
   /* start the experiment */
   jsPsych.init({
     timeline: timeline,
-    preload_images: ['fixation_blue.png', 'fixation_orange.png'],
+    preload_images: ['img/fixation_blue.png', 'img/fixation_orange.png'],
     on_finish: function() {
       jsPsych.data.displayData();
     }
