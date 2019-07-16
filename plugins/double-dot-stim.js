@@ -8,14 +8,14 @@
  *
  **/
 
-jsPsych.plugins["display2boxes"] = (function() {
+jsPsych.plugins["double-dot-stim"] = (function() {
 
     var plugin = {};
 
     jsPsych.pluginAPI.registerPreload('image-keyboard-response', 'stimulus', 'image');
 
     plugin.info = {
-        name: 'image-keyboard-response-edited',
+        name: 'double-dot-stim',
         description: '',
         parameters: {
             fixation_cue: {
@@ -30,17 +30,17 @@ jsPsych.plugins["display2boxes"] = (function() {
                 default: undefined,
                 description: 'Fixation cue duration to be displayed'
             },
-            stimuli: {
+            num_dots: {
                 type: jsPsych.plugins.parameterType.ARRAY,
-                pretty_name: 'stimuli',
+                pretty_name: 'number_dots',
                 default: undefined,
-                description: 'Stim to be display'
+                description: 'Num of dots [stim_left,stim_right] to be display'
             },
-            blankstim: {
-                type: jsPsych.plugins.parameterType.IMAGE,
-                pretty_name: 'blankstim',
-                default: undefined,
-                description: ''
+            stim_size: {
+                type: jsPsych.plugins.parameterType.INT,
+                pretty_name: 'stim_size',
+                default: 300,
+                description: 'The size of the square in which the dots are drawed'
             },
             choices: {
                 type: jsPsych.plugins.parameterType.KEYCODE,
@@ -90,12 +90,15 @@ jsPsych.plugins["display2boxes"] = (function() {
 
         showFixationCue();
         jsPsych.pluginAPI.setTimeout(function() {
-            showStims(trial.stimuli[0], trial.stimuli[1]);
+            var stim0 = drawStimulus(trial.num_dots[0], trial.stim_size, id="stim0");
+            var stim1 = drawStimulus(trial.num_dots[1], trial.stim_size, id="stim1");
+            showStims(stim0, stim1);
         }, trial.fixation_cue_duration);
 
         var timeout = trial.fixation_cue_duration + trial.stimulus_duration;
         jsPsych.pluginAPI.setTimeout(function() {
-            showStims(trial.blankstim, trial.blankstim);
+            var blankstim = drawStimulus(0, trial.stim_size);
+            showStims(blankstim, blankstim);
             var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
                 callback_function: after_response,
                 valid_responses: trial.choices,

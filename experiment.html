@@ -2,14 +2,13 @@
 <html>
 
 <head>
-  <title>My experiment</title>
-  <script src="src/utils.js"></script>
+  <title>COCO</title>
   <script src="src/stimulus.js"></script>
+  <script src="src/trial.js"></script>
   <script src="JsPsych/jspsych.js"></script>
-  <script src="plugins/display2boxes.js"></script>
-  <script src="JsPsych/plugins/jspsych-html-keyboard-response.js"></script>
-  <script src="JsPsych/plugins/jspsych-image-keyboard-response.js"></script>
+  <script src="plugins/double-dot-stim.js"></script>
   <script src="JsPsych/plugins/jspsych-survey-likert.js"></script>
+  <script src="JsPsych/plugins/jspsych-html-keyboard-response.js"></script>
   <link rel="stylesheet" href="JsPsych/css/jspsych.css">
   <link rel="stylesheet" href="css/custom.css">
   </link>
@@ -17,48 +16,45 @@
 
 <body>
     <div id='jspsych-target' style='width:800; height:auto; position:relative;'></div>
-    <canvas class="stimulusCanvas" width="300" height="300" id="stim0"></canvas>
-    <canvas class="stimulusCanvas" width="300" height="300" id="stim1"></canvas>
-    <canvas class="stimulusCanvas" width="300" height="300" id="stim2"></canvas>
 </body>
 <script>
-  /* create timeline */
-  var timeline = [];
+ /* create timeline */
+ var timeline = [];
 
-  /* define welcome message trial */
-  var welcome_block = {
-    type: "html-keyboard-response",
-    stimulus: "Welcome to the experiment. Press any key to begin."
-  };
-  timeline.push(welcome_block);
+ /* define welcome message trial */
+ var welcome_block = {
+     type: "html-keyboard-response",
+     stimulus: "Welcome to the experiment. Press any key to begin."
+ };
+ timeline.push(welcome_block);
 
-  /* test trials */
+ /* test trials */
 
-  var condition_high = [{
-    stimulus: "img/fixation_blue.png",
-    ycorrect: [1, 2, 3, 4],
-    yincorrect: [5, 6, 7, 8],
-    data: {condition:'high'}
-  }];
-  var condition_low = [{
-    stimulus: "img/fixation_orange.png",
-    ycorrect: [1, 2, 3, 4],
-    yincorrect: [1, 2, 3, 4],
-    data: {condition:'low'}
-  }];
-  condition0 = generate_full_sequence(condition = condition_high, ntrial = 4, nblock = 2);
-  timeline.push(condition0);
-  condition1 = generate_full_sequence(condition = condition_low, ntrial = 4, nblock = 2);
-  timeline.push(condition1);
+ var condition_high = [{
+     fixation_cue: "img/fixation_blue.png",
+     ycorrect: [1, 2, 3, 4],
+     yincorrect: [5, 6, 7, 8],
+     data: {condition:'high'}
+ }];
+ var condition_low = [{
+     fixation_cue: "img/fixation_orange.png",
+     ycorrect: [1, 2, 3, 4],
+     yincorrect: [1, 2, 3, 4],
+     data: {condition:'low'}
+ }];
+ condition0 = generate_full_sequence(condition = condition_high, ntrial = 4, nblock = 2);
+ timeline.push(condition0);
+ condition1 = generate_full_sequence(condition = condition_low, ntrial = 4, nblock = 2);
+ timeline.push(condition1);
 
-  /* start the experiment */
-  jsPsych.init({
-    timeline: timeline,
-    preload_images: ['img/fixation_blue.png', 'img/fixation_orange.png'],
-    on_finish: function() {
-      jsPsych.data.displayData();
-    }
-  });
+ /* start the experiment */
+ jsPsych.init({
+     timeline: timeline,
+     preload_images: ['img/fixation_blue.png', 'img/fixation_orange.png'],
+     on_finish: function() {
+         jsPsych.data.displayData();
+     }
+ });
 </script>
 
 </html>

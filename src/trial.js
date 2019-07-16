@@ -1,47 +1,41 @@
-
-
-function _generate_block(trial, ntrial) {
+function generate_block(trial, ntrial) {
     block = [];
     for (i = 1; i <= ntrial; i++) {
         block.push(trial);
     }
     return block.reduce(function(a, b) {
-        return a.concat(b)
+        return a.concat(b);
     });
 }
 
-function _generate_sequence(trial, ntrial, nblock) {
+function generate_sequence(trial, ntrial, nblock) {
     sequence = [];
     for (j = 1; j <= nblock; j++) {
-        block = _generate_block(trial, ntrial);
+        block = generate_block(trial, ntrial);
         sequence.push(block);
-        tbreak = _generate_break(nblock, ntrial);
+        tbreak = generate_break(nblock, ntrial);
         sequence.push([tbreak]);
     }
     return sequence.reduce(function(a, b) {
-        return a.concat(b)
+        return a.concat(b);
     });
 }
 
-function _generate_trial() {
-    var blankstim = drawStimulus("stim0", 0);
+function generate_trial() {
     var stim = {
-        type: 'display2boxes', // previously image-keyboard-reponse-edited2
-        fixation_cue: 'img/fixation_blue.png',
+        type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
+        fixation_cue: jsPsych.timelineVariable('fixation_cue'),
         fixation_cue_duration: 500,
-        stimuli: function() {
-            var rightstim = drawStimulus("stim1", 90);
-            var leftstim = drawStimulus("stim2", 45);
-            return [rightstim, leftstim];
+        num_dots: function() {
+            return [50, 100];
         },
-        blankstim: blankstim,
         border_color: "#FF9005",
         prompt: "<p>Press E if you see more points on the left. Press R if you see more points on the right.</p>",
         choices: ['e', 'r'],
         stimulus_duration: 500,
         gap_endtrial: 500
     };
-    var scale = ["Au hasard", " ", "Very confidence"];
+    var scale = ["Au hasard", " ", " ", " ", " ", "Very confidence"];
     var rating = {
         type: "survey-likert",
         questions: [{
@@ -51,8 +45,7 @@ function _generate_trial() {
         }],
         scale_width: 500
     };
-
-    var trial1 = {
+    var feedback = {
         type: 'html-keyboard-response',
         stimulus: function() {
             last_trial_correct = jsPsych.data.get().last(2).values()[0].correct;
@@ -66,10 +59,10 @@ function _generate_trial() {
         },
         data: jsPsych.timelineVariable('data')
     };
-    return [stim, rating, trial1];
-}
+    return [stim, rating, feedback];
+};
 
-function _generate_break(nblock, ntrial, nseq) {
+function generate_break(nblock, ntrial, nseq) {
     var tbreak = {
         type: "html-keyboard-response",
         stimulus: function() {
@@ -93,8 +86,8 @@ function _generate_break(nblock, ntrial, nseq) {
 }
 
 function generate_full_sequence(condition, ntrial, nblock) {
-    var trial = _generate_trial();
-    var seq = _generate_sequence(trial, ntrial, nblock);
+    var trial = generate_trial();
+    var seq = generate_sequence(trial, ntrial, nblock);
     var sequence = {
         timeline: seq,
         timeline_variables: condition,
@@ -105,5 +98,4 @@ function generate_full_sequence(condition, ntrial, nblock) {
 
 function generate_timeline(conditions, ntrial, nblock) {
     var subject_id = Math.floor(Math.random() * 9000000) + 1000000;
-
 }

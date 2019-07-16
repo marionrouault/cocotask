@@ -1,16 +1,18 @@
 //Function to draw blankstimulus
-function drawStimulus(canvasId, numDots) {
-    var stimCanvas = document.getElementById(canvasId);
-    var stimContext = stimCanvas.getContext("2d");
-    stimContext.clearRect(0, 0, stimCanvas.width, stimCanvas.height);
+function drawStimulus(numDots, size) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 300;
+    canvas.height = 300;
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     //create black stimulus box
     var squareWidth = 250;
-    var sqystartpoint = (stimCanvas.height - squareWidth) / 2;
-    var sqxstartpoint = (stimCanvas.width - squareWidth) / 2;
+    var sqystartpoint = (canvas.height - squareWidth) / 2;
+    var sqxstartpoint = (canvas.width - squareWidth) / 2;
 
-    stimContext.fillStyle = "#000000 "; // the colour is defined outside the function
-    stimContext.fillRect(sqxstartpoint, sqystartpoint, squareWidth, squareWidth); // Fill black square (stimulus background)
+    ctx.fillStyle = "#000000 "; // the colour is defined outside the function
+    ctx.fillRect(sqxstartpoint, sqystartpoint, squareWidth, squareWidth); // Fill black square (stimulus background)
 
     //specification
     if (numDots != 0) {
@@ -30,19 +32,19 @@ function drawStimulus(canvasId, numDots) {
         var k = 0;
         for (var x = sqxstartpoint; x < sqxstartpoint + squareWidth; x += cellSize) {
             for (var y = sqystartpoint; y < sqystartpoint + squareWidth; y += cellSize) {
-                stimContext.beginPath();
-                stimContext.arc(x + (cellSize / 2), y + (cellSize / 2), 2, 0, 2 * Math.PI);
+                ctx.beginPath();
+                ctx.arc(x + (cellSize / 2), y + (cellSize / 2), 2, 0, 2 * Math.PI);
                 if (dotmatrix[k] === 1) {
-                    stimContext.fillStyle = "#FFFFFF";
+                    ctx.fillStyle = "#FFFFFF";
                 } else {
-                    stimContext.fillStyle = "#000000";
+                    ctx.fillStyle = "#000000";
                 }
-                stimContext.fill();
+                ctx.fill();
                 k++;
             }
         }
     }
-    var string4stimulus = stimCanvas.toDataURL();
-    stimContext.clearRect(0, 0, stimCanvas.width, stimCanvas.height);
+    var string4stimulus = canvas.toDataURL();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     return string4stimulus;
 }
