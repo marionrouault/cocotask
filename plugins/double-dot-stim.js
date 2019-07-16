@@ -1,8 +1,8 @@
 /**
- * jspsych-image-keyboard-response
- * Josh de Leeuw
+ * double-dot-stim
+ * Mae
  *
- * plugin for displaying a stimulus and getting a keyboard response
+ * plugin for double stim with staircase
  *
  * documentation: docs.jspsych.org
  *
@@ -30,11 +30,17 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 default: undefined,
                 description: 'Fixation cue duration to be displayed'
             },
-            num_dots: {
-                type: jsPsych.plugins.parameterType.ARRAY,
+            numdots: {
+                type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'number_dots',
-                default: undefined,
-                description: 'Num of dots [stim_left,stim_right] to be display'
+                default: 300,
+                description: 'Base number of dots to use during staircase'
+            },
+            initial_dotdiff: {
+                type: jsPsych.plugins.parameterType.INT,
+                pretty_name: 'initial_dotdiff',
+                default: 100,
+                description: 'Base number of dots to use during staircase'
             },
             stim_size: {
                 type: jsPsych.plugins.parameterType.INT,
@@ -77,6 +83,8 @@ jsPsych.plugins["double-dot-stim"] = (function() {
     };
 
     plugin.trial = function(display_element, trial) {
+        showFixationCue();
+
         function showFixationCue(fixation_cue) {
             var img = '<img src="' + trial.fixation_cue + '" id="fixation_cue"></img>';
             display_element.innerHTML = img;
@@ -88,10 +96,25 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             display_element.innerHTML = stim0 + stim1 + trial.prompt;
         }
 
-        showFixationCue();
+        function get_numdots() {
+            var fstims = jsPsych.data.get().filter({
+                trial_type: 'double-dot-stim'});
+            var answers = fstims.last(2).values();
+            var trial_idx = fstims.count();
+            var pdiff = fstims.last(1).values();
+            if (pdiff[0] == undefined) {
+                pdiff = [{dotdiff:Math.log(trial.initial_dotdiff)}];
+            }
+            var dotdiff = staircase(pdiff[0].dotdiff, answers, trial_idx);
+            var ldots = trial.numdots + Math.round(Math.exp(dotdiff));
+            var rdots = trial.numdots;
+            return {dotdiff:dotdiff, ldots:ldots, rdots:rdots};
+        }
+        var params = get_numdots();
+
         jsPsych.pluginAPI.setTimeout(function() {
-            var stim0 = drawStimulus(trial.num_dots[0], trial.stim_size, id="stim0");
-            var stim1 = drawStimulus(trial.num_dots[1], trial.stim_size, id="stim1");
+            var stim0 = drawStimulus(params.ldots, trial.stim_size, id = "stim0");
+            var stim1 = drawStimulus(params.rdots, trial.stim_size, id = "stim1");
             showStims(stim0, stim1);
         }, trial.fixation_cue_duration);
 
@@ -126,14 +149,19 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             }
 
             // gather the data to store for the trial
+            if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(response.key) == 'e') {
+                correct = params.ldots > params.rdots;
+            } else {
+                correct = params.ldots < params.rdots;
+            }
             var trial_data = {
-                "rt": response.rt,
-                "stimulus": trial.leftstim,
-                "stimulus2": trial.rightstim,
-                "key_press": response.key,
-                "response": 999,
-                "start_point": 999
+                rt: response.rt,
+                key_press: response.key,
+                response: 999,
+                correct: correct,
+                start_point: 999
             };
+            trial_data = Object.assign(trial_data, params);
 
             // clear the display
             display_element.innerHTML = '';

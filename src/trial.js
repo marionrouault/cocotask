@@ -26,9 +26,8 @@ function generate_trial() {
         type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
         fixation_cue: jsPsych.timelineVariable('fixation_cue'),
         fixation_cue_duration: 500,
-        num_dots: function() {
-            return [50, 100];
-        },
+        initial_dotdiff: 50,
+        numdots: 200,
         border_color: "#FF9005",
         prompt: "<p>Press E if you see more points on the left. Press R if you see more points on the right.</p>",
         choices: ['e', 'r'],
