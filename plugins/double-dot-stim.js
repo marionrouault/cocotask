@@ -98,17 +98,26 @@ jsPsych.plugins["double-dot-stim"] = (function() {
 
         function get_numdots() {
             var fstims = jsPsych.data.get().filter({
-                trial_type: 'double-dot-stim'});
+                trial_type: 'double-dot-stim'
+            });
             var answers = fstims.last(2).values();
             var trial_idx = fstims.count();
             var pdiff = fstims.last(1).values();
             if (pdiff[0] == undefined) {
-                pdiff = [{dotdiff:Math.log(trial.initial_dotdiff)}];
+                pdiff = [{
+                    dotdiff: Math.log(trial.initial_dotdiff)
+                }];
             }
             var dotdiff = staircase(pdiff[0].dotdiff, answers, trial_idx);
-            var ldots = trial.numdots + Math.round(Math.exp(dotdiff));
-            var rdots = trial.numdots;
-            return {dotdiff:dotdiff, ldots:ldots, rdots:rdots};
+            var nbdiff = Math.round(Math.exp(dotdiff));
+            var prob = Math.random() > 0.5;
+            var ldots = trial.numdots + prob * nbdiff;
+            var rdots = trial.numdots + (1 - prob) * nbdiff;
+            return {
+                dotdiff: dotdiff,
+                ldots: ldots,
+                rdots: rdots
+            };
         }
         var params = get_numdots();
 
