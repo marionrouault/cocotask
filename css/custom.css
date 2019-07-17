@@ -47,6 +47,19 @@ div.continue
 	margin:auto;
 }
 
+.instructions
+{
+	  text-align: left;
+	  font-family: 'ds-digitalnormal';
+	  font-size: 20px;
+}
+.reward
+{
+	  text-align: center;
+	  font-family: 'ds-digitalnormal';
+	  font-size: 50px;
+}
+
 
 /* Load DIGI font */
 /* Font family modified May 2019*/
