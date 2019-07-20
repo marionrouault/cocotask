@@ -1,9 +1,16 @@
 function load_config() {
     var config = {};
     config.scale = ["Au hasard", " ", " ", " ", " ", "Certain"];
+    config.show_progress_bar = true;
+    config.exclusions = {
+        min_width: 800,
+        min_height: 600
+    };
+
+
     // practise
-    config.practise = false;
     config.practise = {};
+    config.practise.enable = true;
     config.practise.n = 1;
     config.practise.fixation_cue = 'img/fixation_blue.png';
     config.practise.fixation_cue_duration = 800;
@@ -29,26 +36,26 @@ function load_config() {
         '<p class="instructions">Appuyez sur la barre espace pour continuer.</p>'
     ];
     config.practise.survey_questions = [{
-            prompt: '<p class="instructions">Voici l’échelle d’évaluation qui sera employée pour tous les essais. Vous pourrez évaluer votre confiance en votre réponse en choisissant un point le long de l’échelle avec la souris. <br></br>Cliquez sur ‘Continuer’.</p><br>',
+            prompt: '<p>Voici l’échelle d’évaluation qui sera employée pour tous les essais. Vous pourrez évaluer votre confiance en votre réponse en choisissant un point le long de l’échelle avec la souris. <br></br>Cliquez sur ‘Continuer’.</p><br>',
             required: false,
             labels: config.scale
         },
         {
-            prompt: '<p class="instructions">Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? <br></br>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p><br>',
+            prompt: '<p>Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? <br></br>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p><br>',
             required: true,
             labels: config.scale
         },
         {
-            prompt: '<p class="instructions">Si vous êtes <strong>très sûr(e)</strong> d’avoir choisi la bonne boîte, vous auriez dû répondre <strong>Certain</strong>.</p>' +
-                '<p class="instructions">Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, vous auriez dû répondre <strong>Au hasard</strong>.</p>' +
-                '<p class="instructions">Appuyez sur continuer.</p>',
+            prompt: '<p>Si vous êtes <strong>très sûr(e)</strong> d’avoir choisi la bonne boîte, vous auriez dû répondre <strong>Certain</strong>.</p>' +
+                '<p>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, vous auriez dû répondre <strong>Au hasard</strong>.</p>' +
+                '<p>Appuyez sur continuer.</p>',
             required: false,
             labels: config.scale
         },
         {
-            prompt: '<p class="instructions">Si vous êtes <strong>peu sûr(e)</strong> de votre réponse, vous devrez choisir un point entre ces deux descriptions en fonction de votre confiance.</p>' +
-                '<p class="instructions">Essayez d’utiliser l’ensemble de l’échelle, en gardant à l’esprit que l’échelle représente une confiance relative. Sachant que la tâche est difficile, vous serez rarement complètement sûr(e)s que votre réponse est correcte.</p>' +
-                '<p class="instructions">Si vous avez bien compris comment utiliser et exploiter l’ensemble de l’échelle, cliquez sur ‘Continuer’.</p><br>',
+            prompt: '<p>Si vous êtes <strong>peu sûr(e)</strong> de votre réponse, vous devrez choisir un point entre ces deux descriptions en fonction de votre confiance.</p>' +
+                '<p>Essayez d’utiliser l’ensemble de l’échelle, en gardant à l’esprit que l’échelle représente une confiance relative. Sachant que la tâche est difficile, vous serez rarement complètement sûr(e)s que votre réponse est correcte.</p>' +
+                '<p>Si vous avez bien compris comment utiliser et exploiter l’ensemble de l’échelle, cliquez sur ‘Continuer’.</p><br>',
             required: false,
             labels: config.scale
         }
@@ -56,8 +63,9 @@ function load_config() {
     ];
 
     // general
-    config.ntrial = 2;
-    config.nblock = 2;
+
+    config.ntrial = 1;
+    config.nblock = 1;
     config.inter_trial_interval = 500;
     config.fixation_cue_duration = 800;
     config.stim_size = 300;
@@ -110,5 +118,6 @@ function load_config() {
         '<p class="instructions">Appuyez sur la barre espace pour continuer.</p>'
     ];
     config.break_instruction = '<p class="instructions">Rappel : <br>Si la boîte de <strong>gauche</strong> contient le plus de points, appuyez sur <strong>Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, appuyez sur <strong>E</strong>.</p>' + '<p class="instructions"><br>Appuyez sur la barre espace pour continuer.</p>';
+    config.end_instruction = "<p>Bravo ! C’est terminé.<br></br>Appuyez sur la barre espace pour terminer l’expérience et enregistrer vos réponses.</p>";
     return config;
 }

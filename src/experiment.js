@@ -36,7 +36,10 @@ function generate_trial(config) {
         prompt: "<p>Presser " + config.choices[0] + " si l'image de gauche contient plus de point. Presser " + config.choices[1] + " si l'image the droite contient plus de plus.</p>",
         choices: config.choices,
         stimulus_duration: config.stimulus_duration,
-        gap_endtrial: config.stim_feedback_duration
+        gap_endtrial: config.stim_feedback_duration,
+        data: {
+            condition_name: jsPsych.timelineVariable('condition_name')
+        }
     };
     var rating = {
         type: "survey-likert",
@@ -45,11 +48,8 @@ function generate_trial(config) {
             labels: config.scale,
             required: true
         }],
-        scale_width: config.scale_width
-    };
-    var feedback = {
-        type: 'instructions',
-        pages: function() {
+        scale_width: config.scale_width,
+        on_finish: function() {
             var correct = jsPsych.data.get().filter({
                 trial_type: 'double-dot-stim'
             }).last(1).values()[0].correct;
@@ -58,12 +58,32 @@ function generate_trial(config) {
                 dist = 'ycorrect';
             }
             var reward = jsPsych.timelineVariable(dist, true).pop();
+            jsPsych.data.addDataToLastTrial({
+                condition_name: jsPsych.timelineVariable('condition_name'),
+                tag: "rating",
+                reward: reward
+            });
+        }
+    };
+    var feedback = {
+        type: 'instructions',
+        pages: function() {
+            var reward = jsPsych.data.get().filter({
+                tag: 'rating'
+            }).last(1).values()[0].reward;
             return [`<p class='reward'> ${reward} </p>`];
         },
         key_forward: "space",
+        data: {
+            tag: "feedback",
+            condition: ""
+        },
         show_clickable_nav: false,
         show_page_number: false,
-        allow_backward: false
+        allow_backward: false,
+        data: {
+            condition_name: jsPsych.timelineVariable('condition_name')
+        }
     };
     return [stim, rating, feedback];
 };
@@ -131,6 +151,7 @@ function generate_practise_sequence(config) {
     practise = practise.concat(stims);
     practise.push({
         type: 'instructions',
+        data:{practise:true},
         pages: config.practise.instruction_survey,
         key_forward: "space",
         show_clickable_nav: false,
@@ -140,6 +161,7 @@ function generate_practise_sequence(config) {
     for (i = 0; i < config.practise.survey_questions.length; i += 1) {
         practise.push({
             type: "survey-likert",
+            data:{practise:true},
             questions: [config.practise.survey_questions[i]],
             scale_width: config.scale_width
         });
@@ -160,13 +182,13 @@ function parse_timeline_variables(subject_id, config) {
     }
     return zip([conditions, cues]).map(function(x) {
         var data = Object.assign(config.conditions[x[0]], config.fixation_cues[x[1]]);
-        data.subject_id = subject_id;
         return data;
     });
 }
 
 function generate_timeline(config) {
     var subject_id = Math.floor(Math.random() * 9000000) + 1000000;
+    var tvariables = parse_timeline_variables(subject_id, config);
     var starters = [];
     starters.push({
         type: 'fullscreen',
@@ -181,11 +203,29 @@ function generate_timeline(config) {
         allow_backward: false
     });
     var practise = generate_practise_sequence(config);
-    var tvariables = parse_timeline_variables(subject_id, config);
     var firsthalf = generate_full_sequence(config, tvariables[0]);
     var secondhalf = generate_full_sequence(config, tvariables[1]);
     var timeline = [starters, practise, firsthalf, secondhalf];
-    return timeline.reduce(function(a, b) {
+    timeline = timeline.reduce(function(a, b) {
         return a.concat(b);
     });
+    timeline.push({
+        type: 'instructions',
+        pages: [config.end_instruction],
+        key_forward: "space",
+        show_clickable_nav: false,
+        show_page_number: false,
+        allow_backward: false,
+        data: {
+            tag: 'end',
+            config: config,
+            tvariables: tvariables
+        },
+        on_finish: function() {
+            jsPsych.data.addProperties({
+                subject_id: subject_id
+            });
+        }
+    });
+    return timeline;
 };

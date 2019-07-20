@@ -194,6 +194,7 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 rt: response.rt,
                 key_press: response.key,
                 response: 999,
+                practise: trial.practise,
                 correct: get_result(response),
                 start_point: 999
             };
@@ -217,10 +218,10 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             var prompt = trial.prompt;
             if (trial.practise) {
                 feedback_color = "#FF0000";
-                prompt='<p style = "text-align:center">Incorrect</p><br>';
+                prompt = '<p style = "text-align:center">Incorrect</p><br>';
                 if (get_result(response)) {
                     feedback_color = "#008000";
-                    prompt='<p style = "text-align:center">Correct</p><br>';
+                    prompt = '<p style = "text-align:center">Correct</p><br>';
                 };
             }
             var chosenstim = drawStimulus(0, feedback_color);
