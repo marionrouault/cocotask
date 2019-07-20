@@ -25,15 +25,15 @@ function load_config() {
     config.practise.stim_feedback_size = 20;
     config.practise.stim_feedback_color = "#32CD32";
     config.practise.stim_feedback_duration = 500;
-    config.practise.instruction_stim = ['<p class="instructions">Vous avez maintenant quelques essais pour vous entraîner. Merci de répondre seulement après que les points aient disparu de l’écran.</p>' +
-        '<p class="instructions">Pendant cette phase d’entraînement, on vous dira à chaque essai si votre réponse était correcte. <br></br>Si votre réponse était <strong>correcte</strong>, la boîte que vous avez choisie apparaîtra en <font color="green"><strong>vert</strong></font>. <br>Si votre réponse était <strong>incorrecte</strong>, la boîte que vous avez choisie apparaîtra en <font color="red"><strong>rouge</strong></font>.</p>' +
-        '<p class="instructions">Vous n’aurez pas besoin d’évaluer votre confiance pour ces essais d’entraînement.</p>' +
-        '<p class="instructions"><strong>C’est normal que la tâche soit difficile. Essayez simplement de faire de votre mieux.</strong></p>' +
-        '<p class="instructions">Appuyez sur la barre espace pour continuer.</p>'
+    config.practise.instruction_stim = ['<p>Vous avez maintenant quelques essais pour vous entraîner. Merci de répondre seulement après que les points aient disparu de l’écran.</p>' +
+        '<p >Pendant cette phase d’entraînement, on vous dira à chaque essai si votre réponse était correcte. <br></br>Si votre réponse était <strong>correcte</strong>, la boîte que vous avez choisie apparaîtra en <font color="green"><strong>vert</strong></font>. <br>Si votre réponse était <strong>incorrecte</strong>, la boîte que vous avez choisie apparaîtra en <font color="red"><strong>rouge</strong></font>.</p>' +
+        '<p >Vous n’aurez pas besoin d’évaluer votre confiance pour ces essais d’entraînement.</p>' +
+        '<p ><strong>C’est normal que la tâche soit difficile. Essayez simplement de faire de votre mieux.</strong></p>' +
+        '<p >Appuyez sur la barre espace pour continuer.</p>'
     ];
-    config.practise.instruction_survey = ['<p class="instructions">Pendant l’expérience elle-même, on ne vous dira pas si votre réponse était correcte ou incorrecte, mais la boîte que vous avez choisie apparaîtra en <font color="blue"><strong>bleu</strong></font>.</p>' +
-        '<p class="instructions">Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle d’évaluation, à chaque essai, ce que nous allons maintenant expliquer plus en détail.</p>' +
-        '<p class="instructions">Appuyez sur la barre espace pour continuer.</p>'
+    config.practise.instruction_survey = ['<p >Pendant l’expérience elle-même, on ne vous dira pas si votre réponse était correcte ou incorrecte, mais la boîte que vous avez choisie apparaîtra en <font color="blue"><strong>bleu</strong></font>.</p>' +
+        '<p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle d’évaluation, à chaque essai, ce que nous allons maintenant expliquer plus en détail.</p>' +
+        '<p >Appuyez sur la barre espace pour continuer.</p>'
     ];
     config.practise.survey_questions = [{
             prompt: '<p>Voici l’échelle d’évaluation qui sera employée pour tous les essais. Vous pourrez évaluer votre confiance en votre réponse en choisissant un point le long de l’échelle avec la souris. <br></br>Cliquez sur ‘Continuer’.</p><br>',
@@ -108,16 +108,16 @@ function load_config() {
         }
     };
     // instructions
-    config.main_instruction = ['<p class="instructions">Bienvenue !</p>' +
-        '<p class="instructions">Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p>' +
-        '<p class="instructions">Au début de chaque essai, une croix de fixation sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p>' +
-        '<p class="instructions">Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p>' +
-        '<p class="instructions">Merci de répondre rapidement et le mieux possible.</p>' +
-        '<p class="instructions">Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p>' +
-        '<p class="instructions">Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p>' +
-        '<p class="instructions">Appuyez sur la barre espace pour continuer.</p>'
+    config.main_instruction = ['<p >Bienvenue !</p>' +
+        '<p >Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p>' +
+        '<p >Au début de chaque essai, une croix de fixation sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p>' +
+        '<p >Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p>' +
+        '<p >Merci de répondre rapidement et le mieux possible.</p>' +
+        '<p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p>' +
+        '<p >Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p>' +
+        '<p >Appuyez sur la barre espace pour continuer.</p>'
     ];
-    config.break_instruction = '<p class="instructions">Rappel : <br>Si la boîte de <strong>gauche</strong> contient le plus de points, appuyez sur <strong>Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, appuyez sur <strong>E</strong>.</p>' + '<p class="instructions"><br>Appuyez sur la barre espace pour continuer.</p>';
+    config.break_instruction = '<p >Rappel : <br>Si la boîte de <strong>gauche</strong> contient le plus de points, appuyez sur <strong>Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, appuyez sur <strong>E</strong>.</p>' + '<p ><br>Appuyez sur la barre espace pour continuer.</p>';
     config.end_instruction = "<p>Bravo ! C’est terminé.<br></br>Appuyez sur la barre espace pour terminer l’expérience et enregistrer vos réponses.</p>";
     return config;
 }

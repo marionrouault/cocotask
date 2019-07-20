@@ -93,10 +93,11 @@ function generate_break(config) {
         type: 'instructions',
         pages: function() {
             var n = jsPsych.data.get().filter({
-                trial_type: 'double-dot-stim'
+                trial_type: 'double-dot-stim',
+                practise: false
             }).count();
             n = Math.floor(n / config.ntrial);
-            var instruction = '<p class="instructions">Vous avez termine ' + n + ' blocs sur ' + 2 * config.nblock + '.</p>';
+            var instruction = '<p>Vous avez termine ' + n + ' blocs sur ' + 2 * config.nblock + '.</p>';
             return [instruction + config.break_instruction];
         },
         key_forward: "space",
@@ -151,7 +152,9 @@ function generate_practise_sequence(config) {
     practise = practise.concat(stims);
     practise.push({
         type: 'instructions',
-        data:{practise:true},
+        data: {
+            practise: true
+        },
         pages: config.practise.instruction_survey,
         key_forward: "space",
         show_clickable_nav: false,
@@ -161,7 +164,9 @@ function generate_practise_sequence(config) {
     for (i = 0; i < config.practise.survey_questions.length; i += 1) {
         practise.push({
             type: "survey-likert",
-            data:{practise:true},
+            data: {
+                practise: true
+            },
             questions: [config.practise.survey_questions[i]],
             scale_width: config.scale_width
         });
