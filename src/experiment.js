@@ -57,7 +57,7 @@ function generate_trial(config) {
             if (correct) {
                 dist = 'ycorrect';
             }
-            var reward = jsPsych.timelineVariable(dist, true).pop();
+            var reward = jsPsych.timelineVariable(dist, true).reverse().pop();
             jsPsych.data.addDataToLastTrial({
                 condition_name: jsPsych.timelineVariable('condition_name'),
                 tag: "rating",
@@ -66,22 +66,16 @@ function generate_trial(config) {
         }
     };
     var feedback = {
-        type: 'instructions',
-        pages: function() {
+        type: 'feedback',
+        feedback: function() {
             var reward = jsPsych.data.get().filter({
                 tag: 'rating'
             }).last(1).values()[0].reward;
-            return [`<p class='reward'> ${reward} </p>`];
+            return `<p class='reward'> ${reward} </p>`;
         },
-        key_forward: "space",
+        feedback_duration: config.feedback_duration,
         data: {
             tag: "feedback",
-            condition: ""
-        },
-        show_clickable_nav: false,
-        show_page_number: false,
-        allow_backward: false,
-        data: {
             condition_name: jsPsych.timelineVariable('condition_name')
         }
     };
