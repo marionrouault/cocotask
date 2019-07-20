@@ -9,8 +9,11 @@ function load_config() {
     // trial parameters
     config.fixation_cue_duration = 800;
     config.stim_size = 300;
+    config.cellsize = 10;
+    config.stim_color = '#FFFFFF';
+    config.stim_background_color = '#000000';
     config.initial_dotdiff = 50;
-    config.numdots = 150;
+    config.numdots = 300;
     config.choices = ["z", "e"];
     config.stimulus_duration = 300;
     config.feedback_trial_time = 500;

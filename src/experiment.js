@@ -27,6 +27,9 @@ function generate_trial(config) {
         fixation_cue: jsPsych.timelineVariable('fixation_cue'),
         fixation_cue_duration: config.fixation_cue_duration,
         initial_dotdiff: config.initial_dotdiff,
+        cellsize: config.cellsize,
+        stim_background_color: config.stim_background_color,
+        stim_color: config.stim_color,
         numdots: config.numdots,
         border_color: jsPsych.timelineVariable('fixation_cue_color'),
         prompt: "<p>Presser " + config.choices[0] + " si l'image de gauche contient plus de point. Presser " + config.choices[1] + " si l'image the droite contient plus de plus.</p>",
@@ -72,7 +75,7 @@ function generate_break(config) {
                 trial_type: 'double-dot-stim'
             }).count();
             n = Math.floor(n / config.ntrial);
-            var instruction = '<p class="instructions">Vous avez termine ' + n + ' blocs sur ' + 2*config.nblock + '.</p>';
+            var instruction = '<p class="instructions">Vous avez termine ' + n + ' blocs sur ' + 2 * config.nblock + '.</p>';
             return [instruction + config.break_instruction];
         },
         key_forward: "space",

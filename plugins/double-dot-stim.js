@@ -34,7 +34,7 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'number_dots',
                 default: 300,
-                description: 'Base number of dots to use during staircase'
+                description: 'Base number of dots to use during staircase. Not that the number of dots max is (stim_size/cellsize)**2'
             },
             initial_dotdiff: {
                 type: jsPsych.plugins.parameterType.INT,
@@ -46,6 +46,24 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'stim_size',
                 default: 300,
+                description: 'The size of the square in which the dots are drawed'
+            },
+            stim_color: {
+                type: jsPsych.plugins.parameterType.STRING,
+                pretty_name: 'stim_color',
+                default: "#FFFFFF",
+                description: 'The color of the dots'
+            },
+            stim_cell_size: {
+                type: jsPsych.plugins.parameterType.INT,
+                pretty_name: 'stim_cellsize',
+                default: "10",
+                description: 'Diameter of the stim dots'
+            },
+            stim_background_color: {
+                type: jsPsych.plugins.parameterType.STRING,
+                pretty_name: 'stim_background_color',
+                default: "#000000",
                 description: 'The size of the square in which the dots are drawed'
             },
             choices: {
@@ -67,11 +85,17 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 default: null,
                 description: 'How long to hide the stimulus.'
             },
-            border_color: {
+            feedback_color: {
                 type: jsPsych.plugins.parameterType.STRING,
-                pretty_name: 'Border color',
+                pretty_name: 'feedback_color',
                 default: "#FF9005",
-                description: 'How long to wait before the user answer and the end of the trial.'
+                description: 'Color of the image border for the feedback'
+            },
+            feedback_size: {
+                type: jsPsych.plugins.parameterType.INT,
+                pretty_name: 'feedback_size',
+                default: 15,
+                description: 'Size of the image border for the feedback'
             },
             gap_endtrial: {
                 type: jsPsych.plugins.parameterType.INT,
@@ -91,9 +115,12 @@ jsPsych.plugins["double-dot-stim"] = (function() {
         };
 
         function showStims(left, right) {
-            var stim0 = '<img src="' + left + '" id="stim0"></img>';
-            var stim1 = '<img src="' + right + '" id="stim1"></img>';
-            display_element.innerHTML = stim0 + stim1 + trial.prompt;
+            let squaresize = trial.stim_size;
+            let stim0 = `<img src=${left} style="width:${squaresize}px"></img>`;
+            let stim1 = `<img src=${right} style="width:${squaresize}px"></img>`;
+            let prompt = trial.prompt;
+            var html = `<div class="stimrow"><div class="stimcolumn" id="stim0">${stim0}</div><div class="stimcolumn"  id="stim1">${stim1}</div></div><div class="stimrow" >${prompt}</div>`;
+            display_element.innerHTML = html;
         }
 
         function get_numdots() {
@@ -122,14 +149,14 @@ jsPsych.plugins["double-dot-stim"] = (function() {
         var params = get_numdots();
 
         jsPsych.pluginAPI.setTimeout(function() {
-            var stim0 = drawStimulus(params.ldots, trial.stim_size, id = "stim0");
-            var stim1 = drawStimulus(params.rdots, trial.stim_size, id = "stim1");
+            var stim0 = drawStimulus(params.ldots);
+            var stim1 = drawStimulus(params.rdots);
             showStims(stim0, stim1);
         }, trial.fixation_cue_duration);
 
         var timeout = trial.fixation_cue_duration + trial.stimulus_duration;
         jsPsych.pluginAPI.setTimeout(function() {
-            var blankstim = drawStimulus(0, trial.stim_size);
+            var blankstim = drawStimulus(0);
             showStims(blankstim, blankstim);
             var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
                 callback_function: after_response,
@@ -185,60 +212,44 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 response = info;
             }
             var key = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(response.key);
+            var blankstim = drawStimulus(0);
+            var chosenstim = drawStimulus(0, trial.feedback_color);
             if (key == trial.choices[0]) {
-                document.querySelector("#stim0").className += "imgframe";
-                document.querySelector("#stim0").style.background = trial.border_color;
+                showStims(chosenstim, blankstim);
             } else {
-                document.querySelector("#stim1").className += "imgframe";
-                document.querySelector("#stim1").style.background = trial.border_color;
+                showStims(blankstim, chosenstim);
             }
             jsPsych.pluginAPI.setTimeout(function() {
                 end_trial();
             }, trial.gap_endtrial);
         };
 
-        function drawStimulus(numDots, size) {
+        function drawStimulus(numDots, border_color="#FFFFFF") {
             var canvas = document.createElement('canvas');
-            canvas.width = 300;
-            canvas.height = 300;
+            canvas.width = trial.stim_size + 2 * trial.feedback_size;
+            canvas.height = trial.stim_size + 2 * trial.feedback_size;
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            //create black stimulus box
-            var squareWidth = 250;
-            var sqystartpoint = (canvas.height - squareWidth) / 2;
-            var sqxstartpoint = (canvas.width - squareWidth) / 2;
-
-            ctx.fillStyle = "#000000 "; // the colour is defined outside the function
-            ctx.fillRect(sqxstartpoint, sqystartpoint, squareWidth, squareWidth); // Fill black square (stimulus background)
-
+            ctx.fillStyle = border_color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = trial.stim_background_color;
+            ctx.fillRect(trial.feedback_size, trial.feedback_size, trial.stim_size, trial.stim_size);
             //specification
             if (numDots != 0) {
-                var cellSize = 10;
-                var myarray = Array.from(Array(625).keys());
-                var dotindex = jsPsych.randomization.repeat(myarray, 1);
-                var dotmatrix = [];
-                for (var j = 0; j < dotindex.length; j++) {
-                    if (dotindex[j] < (312 + numDots)) {
-                        dotmatrix[j] = 1;
-                    } // white dots
-                    else {
-                        dotmatrix[j] = 0;
-                    } // black dots
-                }
-                //fill the grid:
-                var k = 0;
-                for (var x = sqxstartpoint; x < sqxstartpoint + squareWidth; x += cellSize) {
-                    for (var y = sqystartpoint; y < sqystartpoint + squareWidth; y += cellSize) {
+                var cellsize = trial.cellsize;
+                var size_grid = trial.stim_size / trial.cellsize;
+                var ncells = (size_grid) ** 2;
+                var dots = jsPsych.randomization.repeat([1], numDots);
+                dots = dots.concat(jsPsych.randomization.repeat([0], ncells - numDots));
+                dots = jsPsych.randomization.shuffle(dots);
+                for (i = 0; i < dots.length; i += 1) {
+                    if (dots[i] == 1) {
+                        var ix = Math.floor(i / size_grid) * trial.cellsize + trial.feedback_size;
+                        var iy = (i % size_grid) * trial.cellsize + trial.feedback_size;
                         ctx.beginPath();
-                        ctx.arc(x + (cellSize / 2), y + (cellSize / 2), 2, 0, 2 * Math.PI);
-                        if (dotmatrix[k] === 1) {
-                            ctx.fillStyle = "#FFFFFF";
-                        } else {
-                            ctx.fillStyle = "#000000";
-                        }
+                        ctx.arc(ix + (trial.cellsize / 2), iy + (trial.cellsize / 2), 2, 0, 2 * Math.PI);
+                        ctx.fillStyle = trial.stim_color;
                         ctx.fill();
-                        k++;
                     }
                 }
             }

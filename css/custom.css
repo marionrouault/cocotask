@@ -1,20 +1,13 @@
-.imgframe
-{ background:#D652D9;
-  padding: 0.1px;}
-
-/* In general, the canvases need position:absolute*/
-.stimulusCanvas
-{
-	position: absolute;
-	z-score: 2;
+.stimrow {
+    width: 800px;
+    display: flex;
 }
 
-/* The second canvas needs to have position relative, and be floated to the right*/
-#stim1
-{
-	float:right;
-	position:relative;
+.stimcolumn {
+    flex: 50.0%;
+    padding: 40px;
 }
+
 
 /* Font family added May 2019*/
 .instructions
