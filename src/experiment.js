@@ -31,11 +31,12 @@ function generate_trial(config) {
         stim_background_color: config.stim_background_color,
         stim_color: config.stim_color,
         numdots: config.numdots,
-        border_color: jsPsych.timelineVariable('fixation_cue_color'),
+        feedback_size: config.stim_feedback_size,
+        feedback_color: jsPsych.timelineVariable('fixation_cue_color'),
         prompt: "<p>Presser " + config.choices[0] + " si l'image de gauche contient plus de point. Presser " + config.choices[1] + " si l'image the droite contient plus de plus.</p>",
         choices: config.choices,
         stimulus_duration: config.stimulus_duration,
-        gap_endtrial: config.gap_endtrial
+        gap_endtrial: config.stim_feedback_duration
     };
     var rating = {
         type: "survey-likert",
@@ -57,7 +58,7 @@ function generate_trial(config) {
                 dist = 'ycorrect';
             }
             var reward = jsPsych.timelineVariable(dist, true).pop();
-            return ["<p class='reward'> You won " + reward + " $ !!</p>"];
+            return [`<p class='reward'> ${reward} </p>`];
         },
         key_forward: "space",
         show_clickable_nav: false,

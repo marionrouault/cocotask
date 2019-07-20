@@ -16,8 +16,8 @@ function load_config() {
     config.numdots = 300;
     config.choices = ["z", "e"];
     config.stimulus_duration = 300;
-    config.feedback_trial_time = 500;
-    config.gap_endtrial = 500;
+    config.stim_feedback_size = 20;
+    config.stim_feedback_duration = 500;
     config.prac_stim_time = 300;
 
     config.scale = ["Au hasard", " ", " ", " ", " ", "Very confidence"];
