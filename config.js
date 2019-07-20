@@ -59,9 +59,9 @@ function load_config() {
 
     // pratise
     config.practise = {};
-    config.practise.enable = false;
+    config.practise.enable = true;
     config.practise.n = 1;
-    config.practise.fixation_cue = 'img/fixation_blue.png';
+    config.practise.fixation_cue = 'img/fixation5.png';
     config.practise.fixation_cue_duration = 800;
     config.practise.stim_size = 300;
     config.practise.cellsize = 10;
