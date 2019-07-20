@@ -97,6 +97,56 @@ function generate_full_sequence(config, timeline_variable) {
     return sequence;
 }
 
+function generate_practise_sequence(config) {
+    var practise = [];
+    if (config.practise.enable == false) {
+        return practise;
+    }
+    practise.push({
+        type: 'instructions',
+        pages: config.practise.instruction_stim,
+        key_forward: "space",
+        show_clickable_nav: false,
+        show_page_number: false,
+        allow_backward: false
+    });
+    var stim = {
+        type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
+        practise: true,
+        fixation_cue: config.practise.fixation_cue,
+        fixation_cue_duration: config.practise.fixation_cue_duration,
+        initial_dotdiff: config.practise.initial_dotdiff,
+        cellsize: config.practise.cellsize,
+        stim_background_color: config.practise.stim_background_color,
+        stim_color: config.practise.stim_color,
+        numdots: config.practise.numdots,
+        feedback_size: config.practise.stim_feedback_size,
+        feedback_color: config.practise.stim_feedback_color,
+        prompt: "<p>Presser " + config.practise.choices[0] + " si l'image de gauche contient plus de point. Presser " + config.practise.choices[1] + " si l'image the droite contient plus de plus.</p>",
+        choices: config.practise.choices,
+        stimulus_duration: config.practise.stimulus_duration,
+        gap_endtrial: config.practise.stim_feedback_duration
+    };
+    var stims = generate_block([stim], config.practise.n);
+    practise = practise.concat(stims);
+    practise.push({
+        type: 'instructions',
+        pages: config.practise.instruction_survey,
+        key_forward: "space",
+        show_clickable_nav: false,
+        show_page_number: false,
+        allow_backward: false
+    });
+    for (i=0;i<config.practise.survey_questions.length;i+=1){
+        practise.push({
+            type: "survey-likert",
+            questions: [config.practise.survey_questions[i]],
+            scale_width: config.scale_width
+        });
+    }
+    return practise;
+}
+
 function parse_timeline_variables(subject_id, config) {
     var conditions = Object.keys(config.conditions);
     var cues = Object.keys(config.fixation_cues);
@@ -130,10 +180,11 @@ function generate_timeline(config) {
         show_page_number: false,
         allow_backward: false
     });
+    var practise = generate_practise_sequence(config);
     var tvariables = parse_timeline_variables(subject_id, config);
     var firsthalf = generate_full_sequence(config, tvariables[0]);
     var secondhalf = generate_full_sequence(config, tvariables[1]);
-    var timeline = [starters, firsthalf, secondhalf];
+    var timeline = [starters, practise, firsthalf, secondhalf];
     return timeline.reduce(function(a, b) {
         return a.concat(b);
     });

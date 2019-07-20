@@ -1,6 +1,7 @@
 .stimrow {
     width: 800px;
     display: flex;
+    text-align: center;
 }
 
 .stimcolumn {

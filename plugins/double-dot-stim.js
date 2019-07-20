@@ -102,7 +102,13 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 pretty_name: 'Gap to before we end the trial after response selected',
                 default: 500,
                 description: 'How long to wait before the user answer and the end of the trial.'
-            }
+            },
+            practise: {
+                type: jsPsych.plugins.parameterType.BOOL,
+                pretty_name: 'practise_enable',
+                default: false,
+                description: 'True if you want the practise mode'
+            },
         }
     };
 
@@ -114,12 +120,11 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             display_element.innerHTML = img;
         };
 
-        function showStims(left, right) {
+        function showStims(left, right, prompt) {
             let squaresize = trial.stim_size;
             let stim0 = `<img src=${left} style="width:${squaresize}px"></img>`;
             let stim1 = `<img src=${right} style="width:${squaresize}px"></img>`;
-            let prompt = trial.prompt;
-            var html = `<div class="stimrow"><div class="stimcolumn" id="stim0">${stim0}</div><div class="stimcolumn"  id="stim1">${stim1}</div></div><div class="stimrow" >${prompt}</div>`;
+            var html = `<div class="stimrow"><div class="stimcolumn" id="stim0">${stim0}</div><div class="stimcolumn"  id="stim1">${stim1}</div></div><div id="prompt" class="stimrow" >${prompt}</div>`;
             display_element.innerHTML = html;
         }
 
@@ -151,13 +156,13 @@ jsPsych.plugins["double-dot-stim"] = (function() {
         jsPsych.pluginAPI.setTimeout(function() {
             var stim0 = drawStimulus(params.ldots);
             var stim1 = drawStimulus(params.rdots);
-            showStims(stim0, stim1);
+            showStims(stim0, stim1, trial.prompt);
         }, trial.fixation_cue_duration);
 
         var timeout = trial.fixation_cue_duration + trial.stimulus_duration;
         jsPsych.pluginAPI.setTimeout(function() {
             var blankstim = drawStimulus(0);
-            showStims(blankstim, blankstim);
+            showStims(blankstim, blankstim, trial.prompt);
             var keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
                 callback_function: after_response,
                 valid_responses: trial.choices,
@@ -185,16 +190,11 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             }
 
             // gather the data to store for the trial
-            if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(response.key) == config.choices[0]) {
-                correct = params.ldots > params.rdots;
-            } else {
-                correct = params.ldots < params.rdots;
-            }
             var trial_data = {
                 rt: response.rt,
                 key_press: response.key,
                 response: 999,
-                correct: correct,
+                correct: get_result(response),
                 start_point: 999
             };
             trial_data = Object.assign(trial_data, params);
@@ -213,18 +213,36 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             }
             var key = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(response.key);
             var blankstim = drawStimulus(0);
-            var chosenstim = drawStimulus(0, trial.feedback_color);
+            var feedback_color = trial.feedback_color;
+            var prompt = trial.prompt;
+            if (trial.practise) {
+                feedback_color = "#FF0000";
+                if (get_result(response)) {
+                    feedback_color = "#008000";
+                };
+            }
+            var chosenstim = drawStimulus(0, feedback_color);
             if (key == trial.choices[0]) {
-                showStims(chosenstim, blankstim);
+                showStims(chosenstim, blankstim, prompt);
             } else {
-                showStims(blankstim, chosenstim);
+                showStims(blankstim, chosenstim, prompt);
             }
             jsPsych.pluginAPI.setTimeout(function() {
                 end_trial();
             }, trial.gap_endtrial);
         };
 
-        function drawStimulus(numDots, border_color="#FFFFFF") {
+        function get_result(response) {
+            var correct = false;
+            if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(response.key) == config.choices[0]) {
+                correct = params.ldots > params.rdots;
+            } else {
+                correct = params.ldots < params.rdots;
+            }
+            return correct;
+        }
+
+        function drawStimulus(numDots, border_color = "#FFFFFF") {
             var canvas = document.createElement('canvas');
             canvas.width = trial.stim_size + 2 * trial.feedback_size;
             canvas.height = trial.stim_size + 2 * trial.feedback_size;
