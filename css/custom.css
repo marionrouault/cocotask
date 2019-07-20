@@ -1,7 +1,15 @@
-.stimrow {
-    width: 800px;
+.doublestim-container {
+    width: 800ptx;
+    justify-content: "space-around";
     display: flex;
-    text-align: center;
+}
+.stim {
+    width: 400px;
+    height: 300px;
+}
+.prompt {
+    width: 800px;
+    height: 60px;
 }
 
 .stimcolumn {

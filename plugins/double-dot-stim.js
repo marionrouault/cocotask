@@ -124,7 +124,7 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             let squaresize = trial.stim_size;
             let stim0 = `<img src=${left} style="width:${squaresize}px"></img>`;
             let stim1 = `<img src=${right} style="width:${squaresize}px"></img>`;
-            var html = `<div class="stimrow"><div class="stimcolumn" id="stim0">${stim0}</div><div class="stimcolumn"  id="stim1">${stim1}</div></div><div id="prompt" class="stimrow" >${prompt}</div>`;
+            var html = `<div class="doublestim-container"><div id="stim0" class="stim">${stim0}</div><div id="stim1" class="stim">${stim1}</div></div><div class="prompt" id="prompt">${prompt}</div>`;
             display_element.innerHTML = html;
         }
 
@@ -217,8 +217,10 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             var prompt = trial.prompt;
             if (trial.practise) {
                 feedback_color = "#FF0000";
+                prompt='<p style = "text-align:center">Incorrect</p><br>';
                 if (get_result(response)) {
                     feedback_color = "#008000";
+                    prompt='<p style = "text-align:center">Correct</p><br>';
                 };
             }
             var chosenstim = drawStimulus(0, feedback_color);

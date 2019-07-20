@@ -122,7 +122,7 @@ function generate_practise_sequence(config) {
         numdots: config.practise.numdots,
         feedback_size: config.practise.stim_feedback_size,
         feedback_color: config.practise.stim_feedback_color,
-        prompt: "<p>Presser " + config.practise.choices[0] + " si l'image de gauche contient plus de point. Presser " + config.practise.choices[1] + " si l'image the droite contient plus de plus.</p>",
+        prompt: `<p>Presser ${config.practise.choices[0]} si l'image de gauche contient plus de point. Presser ${config.practise.choices[1]} si l'image the droite contient plus de plus.</p>`,
         choices: config.practise.choices,
         stimulus_duration: config.practise.stimulus_duration,
         gap_endtrial: config.practise.stim_feedback_duration
@@ -137,7 +137,7 @@ function generate_practise_sequence(config) {
         show_page_number: false,
         allow_backward: false
     });
-    for (i=0;i<config.practise.survey_questions.length;i+=1){
+    for (i = 0; i < config.practise.survey_questions.length; i += 1) {
         practise.push({
             type: "survey-likert",
             questions: [config.practise.survey_questions[i]],
