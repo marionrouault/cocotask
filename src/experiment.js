@@ -47,7 +47,7 @@ function generate_trial(config) {
         }
     };
     var rating = {
-        type: "survey-likert",
+        type: "custom-likert",
         questions: [{
             prompt: "Evaluez votre confiance.",
             labels: config.scale,
@@ -175,7 +175,7 @@ function generate_practise_sequence(config) {
     });
     for (i = 0; i < config.practise.survey_questions.length; i += 1) {
         practise.push({
-            type: "survey-likert",
+            type: "custom-likert",
             on_start: function() {
                 show_cursor();
             },
