@@ -36,12 +36,6 @@ jsPsych.plugins["double-dot-stim"] = (function() {
 		            default: 20,
 		            description: "The height of the fixation cross in pixels"
 		        },
-		        fixation_cue_color: {
-		            type: jsPsych.plugins.parameterType.STRING,
-		            pretty_name: "Fixation cross color",
-		            default: "black",
-		            description: "The color of the fixation cross"
-		        },
 		        fixation_cue_thickness: {
 		            type: jsPsych.plugins.parameterType.INT,
 		            pretty_name: "Fixation cross thickness",
@@ -141,16 +135,16 @@ jsPsych.plugins["double-dot-stim"] = (function() {
 
         function showFixationCue() {
             let squaresize = trial.stim_size;
-            let left = drawFixationCue();
-            let stim0 = `<img src=${left} style="width:${squaresize}px"></img>`;
-            var html = `<div class="doublestim-container"><div id="stim0" class="stim">${stim0}</div></div><div class="prompt" id="prompt"><p><\p></div>`;
+            let fixation = drawFixationCue();
+            fixation = `<img src=${fixation} style="width:${squaresize}px"></img>`;
+            var html = `<div class="doublestim-container"><div id="fixation" class="stim">${fixation}</div></div><div class="prompt" id="prompt"><p><\p></div>`;
             display_element.innerHTML = html;
         };
 
         function showStims(left, right, prompt) {
             let squaresize = trial.stim_size;
-            let stim0 = `<img src=${left} class="stim""></img>`;
-            let stim1 = `<img src=${right} class="stim""></img>`;
+            let stim0 = `<img src=${left} class="stim" id="stim0""></img>`;
+            let stim1 = `<img src=${right} class="stim" id="stim1""></img>`;
             var html = `<div class="doublestim-container">${stim0}${stim1}</div><div class="prompt" id="prompt">${prompt}</div>`;
             display_element.innerHTML = html;
         }
@@ -291,7 +285,7 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             ctx.lineWidth = trial.fixation_cue_thickness;
             ctx.moveTo(canvas.width / 2 - trial.fixation_cue_width, canvas.height / 2);
             ctx.lineTo(canvas.width / 2 + trial.fixation_cue_width, canvas.height / 2);
-            ctx.fillStyle = trial.fixation_cue_color;
+            ctx.strokeStyle = trial.fixation_cue_color;
             ctx.stroke();
 
             //Vertical line
@@ -299,8 +293,9 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             ctx.lineWidth = trial.fixation_cue_thickness;
             ctx.moveTo(canvas.width / 2, canvas.height / 2 - trial.fixation_cue_height);
             ctx.lineTo(canvas.width / 2, canvas.height / 2 + trial.fixation_cue_height);
-            ctx.fillStyle = trial.fixation_cue_color;
+            ctx.strokeStyle = trial.fixation_cue_color;
             ctx.stroke();
+
             var fixation_cue = canvas.toDataURL();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             return fixation_cue;

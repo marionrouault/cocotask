@@ -234,5 +234,5 @@ function generate_timeline(config) {
             });
         }
     });
-    return practise;
+    return timeline;
 };
