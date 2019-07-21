@@ -13,7 +13,7 @@ function load_config() {
     config.fixation_cue_duration = 800;
     config.fixation_cue_width = 20;
     config.fixation_cue_height = 20;
-    config.fixation_cue_thickness = 10;
+    config.fixation_cue_thickness = 5;
     config.stim_size = 250;
     config.cellsize = 10;
     config.stim_color = '#FFFFFF';
@@ -60,7 +60,7 @@ function load_config() {
 
     // pratise
     config.practise = {};
-    config.practise.enable = true;
+    config.practise.enable = false;
     config.practise.n = 1;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
