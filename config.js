@@ -60,7 +60,7 @@ function load_config() {
 
     // pratise
     config.practise = {};
-    config.practise.enable = false;
+    config.practise.enable = true;
     config.practise.n = 1;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
@@ -86,7 +86,7 @@ function load_config() {
             labels: config.scale
         },
         {
-            prompt: '<p>Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ?</p> <br></br>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p><br>',
+            prompt: '<p>Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ?</p>',
             required: true,
             labels: config.scale
         },

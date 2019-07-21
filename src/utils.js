@@ -25,8 +25,14 @@ function product() {
 
 function remove_cursor() {
     document.body.style.cursor = 'none';
+    if (document.querySelector('.jspsych-content-wrapper') != null) {
+        document.querySelector('.jspsych-content-wrapper').style.cursor = 'none';
+    }
 };
 
 function show_cursor() {
     document.body.style.cursor = 'default';
+    if (document.querySelector('.jspsych-content-wrapper') != null) {
+        document.querySelector('.jspsych-content-wrapper').style.cursor = 'default';
+    }
 };

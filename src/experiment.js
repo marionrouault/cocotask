@@ -173,11 +173,17 @@ function generate_practise_sequence(config) {
     for (i = 0; i < config.practise.survey_questions.length; i += 1) {
         practise.push({
             type: "survey-likert",
+            on_start:function(){
+                show_cursor();
+            },
             data: {
                 practise: true
             },
             questions: [config.practise.survey_questions[i]],
-            scale_width: config.scale_width
+            scale_width: config.scale_width,
+            on_finish:function(){
+                remove_cursor();
+            }
         });
     }
     return practise;
