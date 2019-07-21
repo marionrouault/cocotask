@@ -26,9 +26,10 @@ function load_config() {
     config.stim_feedback_size = 20;
     config.stim_feedback_duration = 500;
     config.feedback_duration = 1000;
+    config.feedback_fontsize = 32;
 
 
-    config.scale_width = 500;
+    config.scale_width = 700;
 
     // conditions
     config.conditions = {
@@ -53,8 +54,7 @@ function load_config() {
         }
     };
     // instructions
-    config.main_instruction = ['<p >Bienvenue !</p><p >Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p><p >Au début de chaque essai, une croix de fixation sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p><p >Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p><p >Merci de répondre rapidement et le mieux possible.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p><p >Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p><p >Appuyez sur la barre espace pour continuer.</p>'
-    ];
+    config.main_instruction = ['<p >Bienvenue !</p><p >Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p><p >Au début de chaque essai, une croix de fixation sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p><p >Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p><p >Merci de répondre rapidement et le mieux possible.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p><p >Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p><p >Appuyez sur la barre espace pour continuer.</p>'];
     config.break_instruction = '<p >Rappel : <br>Si la boîte de <strong>gauche</strong> contient le plus de points, appuyez sur <strong>Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, appuyez sur <strong>E</strong>.</p><p ><br>Appuyez sur la barre espace pour continuer.</p>';
     config.end_instruction = "<p>Bravo ! C’est terminé.<br></br>Appuyez sur la barre espace pour terminer l’expérience et enregistrer vos réponses.</p>";
 
@@ -62,10 +62,10 @@ function load_config() {
     config.practise = {};
     config.practise.enable = false;
     config.practise.n = 1;
-    config.practise.fixation_cue_duration = 800;
+    config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
     config.practise.fixation_cue_width = 20;
-    config.practise.fixation_cue_thickness = 10;
+    config.practise.fixation_cue_thickness = 5;
     config.practise.fixation_cue_color = "#000000";
     config.practise.stim_size = 250;
     config.practise.cellsize = 10;
@@ -78,17 +78,20 @@ function load_config() {
     config.practise.stim_feedback_size = 20;
     config.practise.stim_feedback_color = "#32CD32";
     config.practise.stim_feedback_duration = 500;
-    config.practise.instruction_stim = ['<p>Vous avez maintenant quelques essais pour vous entraîner. Merci de répondre seulement après que les points aient disparu de l’écran.</p><p >Pendant cette phase d’entraînement, on vous dira à chaque essai si votre réponse était correcte. <br></br>Si votre réponse était <strong>correcte</strong>, la boîte que vous avez choisie apparaîtra en <font color="green"><strong>vert</strong></font>. <br>Si votre réponse était <strong>incorrecte</strong>, la boîte que vous avez choisie apparaîtra en <font color="red"><strong>rouge</strong></font>.</p><p >Vous n’aurez pas besoin d’évaluer votre confiance pour ces essais d’entraînement.</p><p ><strong>C’est normal que la tâche soit difficile. Essayez simplement de faire de votre mieux.</strong></p><p >Appuyez sur la barre espace pour continuer.</p>'
-    ];
-    config.practise.instruction_survey = ['<p>Pendant l’expérience elle-même, on ne vous dira pas si votre réponse était correcte ou incorrecte, mais la boîte que vous avez choisie sera indiquée.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle d’évaluation, à chaque essai, ce que nous allons maintenant expliquer plus en détail.</p><p >Appuyez sur la barre espace pour continuer.</p>'
-    ];
+    config.practise.instruction_stim = ['<p>Vous avez maintenant quelques essais pour vous entraîner. Merci de répondre seulement après que les points aient disparu de l’écran.</p><p >Pendant cette phase d’entraînement, on vous dira à chaque essai si votre réponse était correcte. <br></br>Si votre réponse était <strong>correcte</strong>, la boîte que vous avez choisie apparaîtra en <font color="green"><strong>vert</strong></font>. <br>Si votre réponse était <strong>incorrecte</strong>, la boîte que vous avez choisie apparaîtra en <font color="red"><strong>rouge</strong></font>.</p><p >Vous n’aurez pas besoin d’évaluer votre confiance pour ces essais d’entraînement.</p><p ><strong>C’est normal que la tâche soit difficile. Essayez simplement de faire de votre mieux.</strong></p><p >Appuyez sur la barre espace pour continuer.</p>'];
+    config.practise.instruction_survey = ['<p>Pendant l’expérience elle-même, on ne vous dira pas si votre réponse était correcte ou incorrecte, mais la boîte que vous avez choisie sera indiquée.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle d’évaluation, à chaque essai, ce que nous allons maintenant expliquer plus en détail.</p><p >Appuyez sur la barre espace pour continuer.</p>'];
     config.practise.survey_questions = [{
             prompt: '<p>Voici l’échelle d’évaluation qui sera employée pour tous les essais. Vous pourrez évaluer votre confiance en votre réponse en choisissant un point le long de l’échelle avec la souris. <br></br>Cliquez sur ‘Continuer’.</p><br>',
             required: false,
             labels: config.scale
         },
         {
-            prompt: '<p>Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? <br></br>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p><br>',
+            prompt: '<p>Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ?</p> <br></br>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p><br>',
+            required: true,
+            labels: config.scale
+        },
+        {
+            prompt: '<p>Pendant la tâche, si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p>',
             required: true,
             labels: config.scale
         },

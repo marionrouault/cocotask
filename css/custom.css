@@ -14,11 +14,9 @@
 }
 
 
-/* Font family added May 2019*/
-.instructions
+.reward
 {
-	text-align: left;
-	font-family: 'ds-digitalnormal';
+	text-align: center;
 	font-size: 20px;
 }
 

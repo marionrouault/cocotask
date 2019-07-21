@@ -37,12 +37,13 @@ function generate_trial(config) {
         numdots: config.numdots,
         feedback_size: config.stim_feedback_size,
         feedback_color: jsPsych.timelineVariable('fixation_cue_color'),
-        prompt: "<p>Presser " + config.choices[0] + " si l'image de gauche contient plus de point. Presser " + config.choices[1] + " si l'image the droite contient plus de plus.</p>",
+        prompt: `<p>Presser ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points. Presser ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
         choices: config.choices,
         stimulus_duration: config.stimulus_duration,
         gap_endtrial: config.stim_feedback_duration,
         data: {
             condition_name: jsPsych.timelineVariable('condition_name')
+
         }
     };
     var rating = {
@@ -52,6 +53,9 @@ function generate_trial(config) {
             labels: config.scale,
             required: true
         }],
+        on_start:function(){
+            show_cursor();
+        },
         scale_width: config.scale_width,
         on_finish: function() {
             var correct = jsPsych.data.get().filter({
@@ -66,7 +70,9 @@ function generate_trial(config) {
                 condition_name: jsPsych.timelineVariable('condition_name'),
                 tag: "rating",
                 reward: reward
+
             });
+            remove_cursor();
         }
     };
     var feedback = {
@@ -75,8 +81,9 @@ function generate_trial(config) {
             var reward = jsPsych.data.get().filter({
                 tag: 'rating'
             }).last(1).values()[0].reward;
-            return `<p class='reward'> ${reward} </p>`;
+            return `<p>${reward}</p>`;
         },
+        feedback_fontsize: config.feedback_fontsize,
         feedback_duration: config.feedback_duration,
         data: {
             tag: "feedback",
@@ -145,7 +152,7 @@ function generate_practise_sequence(config) {
         numdots: config.practise.numdots,
         feedback_size: config.practise.stim_feedback_size,
         feedback_color: config.practise.stim_feedback_color,
-        prompt: `<p>Presser ${config.practise.choices[0]} si l'image de gauche contient plus de point. Presser ${config.practise.choices[1]} si l'image the droite contient plus de plus.</p>`,
+        prompt: `<p>Presser ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points. Presser ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
         choices: config.practise.choices,
         stimulus_duration: config.practise.stimulus_duration,
         gap_endtrial: config.practise.stim_feedback_duration
@@ -199,7 +206,10 @@ function generate_timeline(config) {
     var starters = [];
     starters.push({
         type: 'fullscreen',
-        fullscreen_mode: true
+        fullscreen_mode: true,
+        on_finish: function() {
+            remove_cursor();
+        }
     });
     starters.push({
         type: 'instructions',

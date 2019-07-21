@@ -23,3 +23,10 @@ function product() {
 }
 
 
+function remove_cursor() {
+    document.body.style.cursor = 'none';
+};
+
+function show_cursor() {
+    document.body.style.cursor = 'default';
+};

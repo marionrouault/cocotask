@@ -16,12 +16,18 @@ jsPsych.plugins["feedback"] = (function() {
             feedback: {
                 type: jsPsych.plugins.parameterType.STRING,
                 default: ""
+            },
+            feedback_fontsize: {
+                type: jsPsych.plugins.parameterType.INT,
+                default: "20"
             }
         }
     };
 
     plugin.trial = function(display_element, trial) {
-        display_element.innerHTML = trial.feedback;
+        var html = `<div id="reward"> ${trial.feedback}</div>`;
+        display_element.innerHTML = html;
+        document.getElementById('reward').style.fontSize = `${trial.feedback_fontsize}px`;
         var trial_data = {};
         jsPsych.pluginAPI.setTimeout(function() {
             jsPsych.finishTrial(trial_data);
