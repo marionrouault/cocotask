@@ -53,7 +53,8 @@ function generate_trial(config) {
             labels: config.scale,
             required: true
         }],
-        on_start:function(){
+        button_label: "Continuer",
+        on_start: function() {
             show_cursor();
         },
         scale_width: config.scale_width,
@@ -173,7 +174,7 @@ function generate_practise_sequence(config) {
     for (i = 0; i < config.practise.survey_questions.length; i += 1) {
         practise.push({
             type: "survey-likert",
-            on_start:function(){
+            on_start: function() {
                 show_cursor();
             },
             data: {
@@ -181,7 +182,8 @@ function generate_practise_sequence(config) {
             },
             questions: [config.practise.survey_questions[i]],
             scale_width: config.scale_width,
-            on_finish:function(){
+            button_label: "Continuer",
+            on_finish: function() {
                 remove_cursor();
             }
         });
