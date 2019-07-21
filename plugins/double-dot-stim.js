@@ -18,12 +18,36 @@ jsPsych.plugins["double-dot-stim"] = (function() {
         name: 'double-dot-stim',
         description: '',
         parameters: {
-            fixation_cue: {
-                type: jsPsych.plugins.parameterType.IMAGE,
-                pretty_name: 'fixation_cue',
-                default: undefined,
-                description: 'Fixation cue to be displayed'
-            },
+            fixation_cue_color: {
+		            type: jsPsych.plugins.parameterType.STRING,
+		            pretty_name: "Fixation cross color",
+		            default: "#000000",
+		            description: "The color of the fixation cross"
+		        },
+            fixation_cue_width: {
+		            type: jsPsych.plugins.parameterType.INT,
+		            pretty_name: "Fixation cross width",
+		            default: 20,
+		            description: "The width of the fixation cross in pixels"
+		        },
+		        fixation_cue_height: {
+		            type: jsPsych.plugins.parameterType.INT,
+		            pretty_name: "Fixation cross height",
+		            default: 20,
+		            description: "The height of the fixation cross in pixels"
+		        },
+		        fixation_cue_color: {
+		            type: jsPsych.plugins.parameterType.STRING,
+		            pretty_name: "Fixation cross color",
+		            default: "black",
+		            description: "The color of the fixation cross"
+		        },
+		        fixation_cue_thickness: {
+		            type: jsPsych.plugins.parameterType.INT,
+		            pretty_name: "Fixation cross thickness",
+		            default: 1,
+		            description: "The thickness of the fixation cross"
+		        },
             fixation_cue_duration: {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'fixation_cue',
@@ -108,23 +132,26 @@ jsPsych.plugins["double-dot-stim"] = (function() {
                 pretty_name: 'practise_enable',
                 default: false,
                 description: 'True if you want the practise mode'
-            },
+            }
         }
     };
 
     plugin.trial = function(display_element, trial) {
         showFixationCue();
 
-        function showFixationCue(fixation_cue) {
-            var img = '<img src="' + trial.fixation_cue + '" id="fixation_cue"></img>';
-            display_element.innerHTML = img;
+        function showFixationCue() {
+            let squaresize = trial.stim_size;
+            let left = drawFixationCue();
+            let stim0 = `<img src=${left} style="width:${squaresize}px"></img>`;
+            var html = `<div class="doublestim-container"><div id="stim0" class="stim">${stim0}</div></div><div class="prompt" id="prompt"><p><\p></div>`;
+            display_element.innerHTML = html;
         };
 
         function showStims(left, right, prompt) {
             let squaresize = trial.stim_size;
-            let stim0 = `<img src=${left} style="width:${squaresize}px"></img>`;
-            let stim1 = `<img src=${right} style="width:${squaresize}px"></img>`;
-            var html = `<div class="doublestim-container"><div id="stim0" class="stim">${stim0}</div><div id="stim1" class="stim">${stim1}</div></div><div class="prompt" id="prompt">${prompt}</div>`;
+            let stim0 = `<img src=${left} class="stim""></img>`;
+            let stim1 = `<img src=${right} class="stim""></img>`;
+            var html = `<div class="doublestim-container">${stim0}${stim1}</div><div class="prompt" id="prompt">${prompt}</div>`;
             display_element.innerHTML = html;
         }
 
@@ -245,14 +272,43 @@ jsPsych.plugins["double-dot-stim"] = (function() {
             return correct;
         }
 
-        function drawStimulus(numDots, border_color = "#FFFFFF") {
+        function getCanvas(background_color="#FFFFFF") {
             var canvas = document.createElement('canvas');
             canvas.width = trial.stim_size + 2 * trial.feedback_size;
             canvas.height = trial.stim_size + 2 * trial.feedback_size;
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = border_color;
+            ctx.fillStyle = background_color;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            return canvas;
+        }
+
+        function drawFixationCue() {
+            var canvas = getCanvas();
+            var ctx = canvas.getContext('2d');
+            //Horizontal line
+            ctx.beginPath();
+            ctx.lineWidth = trial.fixation_cue_thickness;
+            ctx.moveTo(canvas.width / 2 - trial.fixation_cue_width, canvas.height / 2);
+            ctx.lineTo(canvas.width / 2 + trial.fixation_cue_width, canvas.height / 2);
+            ctx.fillStyle = trial.fixation_cue_color;
+            ctx.stroke();
+
+            //Vertical line
+            ctx.beginPath();
+            ctx.lineWidth = trial.fixation_cue_thickness;
+            ctx.moveTo(canvas.width / 2, canvas.height / 2 - trial.fixation_cue_height);
+            ctx.lineTo(canvas.width / 2, canvas.height / 2 + trial.fixation_cue_height);
+            ctx.fillStyle = trial.fixation_cue_color;
+            ctx.stroke();
+            var fixation_cue = canvas.toDataURL();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return fixation_cue;
+        }
+
+        function drawStimulus(numDots, border_color = "#FFFFFF") {
+            var canvas = getCanvas(border_color);
+            var ctx = canvas.getContext('2d');
             ctx.fillStyle = trial.stim_background_color;
             ctx.fillRect(trial.feedback_size, trial.feedback_size, trial.stim_size, trial.stim_size);
             //specification

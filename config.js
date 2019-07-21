@@ -11,12 +11,12 @@ function load_config() {
     config.nblock = 2;
     config.inter_trial_interval = 500;
     config.fixation_cue_duration = 800;
-    config.stim_size = 300;
+    config.stim_size = 250;
     config.cellsize = 10;
     config.stim_color = '#FFFFFF';
     config.stim_background_color = '#000000';
     config.initial_dotdiff = 50;
-    config.numdots = 300;
+    config.numdots = 313;
     config.scale = ["Au hasard", " ", " ", " ", " ", "Certain"];
     config.choices = ["z", "e"];
     config.stimulus_duration = 300;
@@ -43,11 +43,9 @@ function load_config() {
     // cues
     config.fixation_cues = {
         blue: {
-            fixation_cue: "img/fixation_blue.png",
             fixation_cue_color: "#6682FE"
         },
         orange: {
-            fixation_cue: "img/fixation_orange.png",
             fixation_cue_color: "#FD780A"
         }
     };
@@ -62,13 +60,17 @@ function load_config() {
     config.practise.enable = true;
     config.practise.n = 1;
     config.practise.fixation_cue = 'img/fixation5.png';
-    config.practise.fixation_cue_duration = 800;
-    config.practise.stim_size = 300;
+    config.practise.fixation_cue_duration = 1000;
+    config.practise.fixation_cue_height = 10;
+    config.practise.fixation_cue_width = 10;
+    config.practise.fixation_cue_thickness = 100;
+    config.practise.fixation_cue_color = "#000000";
+    config.practise.stim_size = 250;
     config.practise.cellsize = 10;
     config.practise.stim_color = '#FFFFFF';
     config.practise.stim_background_color = '#000000';
     config.practise.initial_dotdiff = 50;
-    config.practise.numdots = 300;
+    config.practise.numdots = 313;
     config.practise.choices = ["z", "e"];
     config.practise.stimulus_duration = 300;
     config.practise.stim_feedback_size = 20;

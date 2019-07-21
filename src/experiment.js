@@ -24,12 +24,16 @@ function generate_sequence(config, trial) {
 function generate_trial(config) {
     var stim = {
         type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
-        fixation_cue: jsPsych.timelineVariable('fixation_cue'),
+        fixation_cue_height: config.fixation_cue_height,
+        fixation_cue_width: config.fixation_cue_width,
+        fixation_cue_thickness: config.fixation_cue_thickness,
+        fixation_cue_color: jsPsych.timelineVariable('fixation_cue_color'),
         fixation_cue_duration: config.fixation_cue_duration,
         initial_dotdiff: config.initial_dotdiff,
         cellsize: config.cellsize,
         stim_background_color: config.stim_background_color,
         stim_color: config.stim_color,
+        stim_size: config.practise.stim_size,
         numdots: config.numdots,
         feedback_size: config.stim_feedback_size,
         feedback_color: jsPsych.timelineVariable('fixation_cue_color'),
@@ -128,9 +132,13 @@ function generate_practise_sequence(config) {
     var stim = {
         type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
         practise: true,
-        fixation_cue: config.practise.fixation_cue,
         fixation_cue_duration: config.practise.fixation_cue_duration,
+        fixation_cue_height: config.practise.fixation_cue_height,
+        fixation_cue_width: config.practise.fixation_cue_width,
+        fixation_cue_thickness: config.practise.fixation_cue_thickness,
+        fixation_cue_color: config.practise.fixation_cue_color,
         initial_dotdiff: config.practise.initial_dotdiff,
+        stim_size: config.practise.stim_size,
         cellsize: config.practise.cellsize,
         stim_background_color: config.practise.stim_background_color,
         stim_color: config.practise.stim_color,
@@ -226,5 +234,5 @@ function generate_timeline(config) {
             });
         }
     });
-    return timeline;
+    return practise;
 };
