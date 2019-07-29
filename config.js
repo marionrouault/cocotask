@@ -27,9 +27,7 @@ function load_config() {
     config.stim_feedback_duration = 500;
     config.feedback_duration = 1000;
     config.feedback_fontsize = 32;
-
-
-    config.scale_width = 700;
+    config.scale_width = 500;
 
     // conditions
     config.conditions = {
@@ -60,7 +58,7 @@ function load_config() {
 
     // pratise
     config.practise = {};
-    config.practise.enable = false;
+    config.practise.enable = true;
     config.practise.n = 1;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
