@@ -58,7 +58,7 @@ function load_config() {
 
     // pratise
     config.practise = {};
-    config.practise.enable = true;
+    config.practise.enable = false;
     config.practise.n = 1;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;

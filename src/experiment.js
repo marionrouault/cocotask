@@ -82,10 +82,12 @@ function generate_trial(config) {
             var reward = jsPsych.data.get().filter({
                 tag: 'rating'
             }).last(1).values()[0].reward;
+            reward = `$${reward}`
             return reward;
         },
         feedback_fontsize: config.feedback_fontsize,
         feedback_duration: config.feedback_duration,
+        intertrial_interval: config.inter_trial_interval,
         convas_size: config.stim_size,
         convas_offset: config.stim_feedback_size,
         data: {
