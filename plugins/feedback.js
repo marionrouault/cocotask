@@ -28,6 +28,10 @@ jsPsych.plugins["feedback"] = (function() {
             feedback_fontsize: {
                 type: jsPsych.plugins.parameterType.INT,
                 default: "20"
+            },
+            intertrial_interval: {
+                type: jsPsych.plugins.parameterType.INT,
+                default: 500
             }
         }
     };
@@ -40,9 +44,14 @@ jsPsych.plugins["feedback"] = (function() {
         display_element.innerHTML = html;
 
         var trial_data = {};
+
+        jsPsych.pluginAPI.setTimeout(function() {
+            display_element.innerHTML = "";
+        }, trial.feedback_duration);
+
         jsPsych.pluginAPI.setTimeout(function() {
             jsPsych.finishTrial(trial_data);
-        }, trial.feedback_duration);
+        }, trial.feedback_duration + trial.intertrial_interval);
 
         function getCanvas(background_color = "#FFFFFF") {
             var canvas = document.createElement('canvas');
@@ -61,7 +70,7 @@ jsPsych.plugins["feedback"] = (function() {
             //Horizontal line
             ctx.font = `${trial.feedback_fontsize}px Verdana`;
             ctx.fillStyle = "#000000"
-            ctx.fillText(`${trial.feedback}`, canvas.width / 2 - trial.canvas_offset-10, canvas.height / 2 + trial.canvas_offset);
+            ctx.fillText(`${trial.feedback}`, canvas.width / 2 - trial.canvas_offset - 10, canvas.height / 2 + trial.canvas_offset);
             var reward = canvas.toDataURL();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             return reward;
