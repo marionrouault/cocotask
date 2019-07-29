@@ -37,7 +37,7 @@ function generate_trial(config) {
         numdots: config.numdots,
         feedback_size: config.stim_feedback_size,
         feedback_color: jsPsych.timelineVariable('fixation_cue_color'),
-        prompt: `<p>Presser ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points. Presser ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
+        prompt: `<p>Appuyez sur ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points, appuyez sur ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
         choices: config.choices,
         stimulus_duration: config.stimulus_duration,
         gap_endtrial: config.stim_feedback_duration,
@@ -49,7 +49,7 @@ function generate_trial(config) {
     var rating = {
         type: "custom-likert",
         questions: [{
-            prompt: "Evaluez votre confiance.",
+            prompt: "Evaluez votre confiance :",
             labels: config.scale,
             required: true
         }],
@@ -82,7 +82,7 @@ function generate_trial(config) {
             var reward = jsPsych.data.get().filter({
                 tag: 'rating'
             }).last(1).values()[0].reward;
-            reward = `$${reward}`
+            reward = `${reward}`
             return reward;
         },
         feedback_fontsize: config.feedback_fontsize,
@@ -107,7 +107,7 @@ function generate_break(config) {
                 practise: false
             }).count();
             n = Math.floor(n / config.ntrial);
-            var instruction = '<p>Vous avez termine ' + n + ' blocs sur ' + 2 * config.nblock + '.</p>';
+            var instruction = '<p>Vous avez terminé ' + n + ' blocs sur ' + 2 * config.nblock + '.</p>';
             return [instruction + config.break_instruction];
         },
         key_forward: "space",
@@ -117,9 +117,10 @@ function generate_break(config) {
     };
 }
 
+// NB generate_full_sequence is run per half of experiment = per condition
 function generate_full_sequence(config, timeline_variable) {
     var trial = generate_trial(config);
-    var seq = generate_sequence(config, trial);
+    var seq = generate_sequence(config, trial);// seq gives n blocks + one break
     var sequence = {
         timeline: seq,
         timeline_variables: [timeline_variable],
@@ -142,7 +143,7 @@ function generate_practise_sequence(config) {
         allow_backward: false
     });
     var stim = {
-        type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
+        type: 'double-dot-stim', // previously image-keyboard-reponse-edited2. No scale, no reward during the practise.
         practise: true,
         fixation_cue_duration: config.practise.fixation_cue_duration,
         fixation_cue_height: config.practise.fixation_cue_height,
@@ -157,7 +158,7 @@ function generate_practise_sequence(config) {
         numdots: config.practise.numdots,
         feedback_size: config.practise.stim_feedback_size,
         feedback_color: config.practise.stim_feedback_color,
-        prompt: `<p>Presser ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points. Presser ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
+        prompt: `<p>Appuyez sur ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points, appuyez sur ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
         choices: config.practise.choices,
         stimulus_duration: config.practise.stimulus_duration,
         gap_endtrial: config.practise.stim_feedback_duration

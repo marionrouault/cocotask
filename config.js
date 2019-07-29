@@ -7,10 +7,10 @@ function load_config() {
     };
 
     // general
-    config.ntrial = 5;
-    config.nblock = 2;
-    config.inter_trial_interval = 500;
-    config.fixation_cue_duration = 800;
+    config.ntrial = 1;//40;//per block
+    config.nblock = 1;//4;//per condition
+    config.inter_trial_interval = 300;
+    config.fixation_cue_duration = 500;//800;
     config.fixation_cue_width = 20;
     config.fixation_cue_height = 20;
     config.fixation_cue_thickness = 5;
@@ -52,14 +52,14 @@ function load_config() {
         }
     };
     // instructions
-    config.main_instruction = ['<p >Bienvenue !</p><p >Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p><p >Au début de chaque essai, une croix de fixation sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p><p >Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p><p >Merci de répondre rapidement et le mieux possible.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p><p >Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p><p >Appuyez sur la barre espace pour continuer.</p>'];
+    config.main_instruction = ['<p >Bienvenue !</p><p >Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p><p >Au début de chaque essai, une croix sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p><p >Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p><p >Merci de répondre rapidement et le mieux possible.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p><p >Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p><p >Appuyez sur la barre espace pour continuer.</p>'];
     config.break_instruction = '<p >Rappel : <br>Si la boîte de <strong>gauche</strong> contient le plus de points, appuyez sur <strong>Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, appuyez sur <strong>E</strong>.</p><p ><br>Appuyez sur la barre espace pour continuer.</p>';
     config.end_instruction = "<p>Bravo ! C’est terminé.<br></br>Appuyez sur la barre espace pour terminer l’expérience et enregistrer vos réponses.</p>";
 
-    // pratise
+    // practise
     config.practise = {};
     config.practise.enable = false;
-    config.practise.n = 1;
+    config.practise.n = 26;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
     config.practise.fixation_cue_width = 20;
