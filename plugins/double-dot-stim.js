@@ -259,9 +259,9 @@ jsPsych.plugins["double-dot-stim"] = (function() {
         function get_result(response) {
             var correct = false;
             if (jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(response.key) == config.choices[0]) {
-                correct = params.ldots > params.rdots;
+                correct = params.ldots > params.rdots;// if participant responded Left
             } else {
-                correct = params.ldots < params.rdots;
+                correct = params.ldots < params.rdots;// if participant responded Right
             }
             return correct;
         }

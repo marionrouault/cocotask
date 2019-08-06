@@ -11,7 +11,7 @@ Les commandes doivent etre runner a partir de ce folder
 http://localhost:8086/experiment.html
 ```
 
-2. Terminaning the server at the end of the experiment_data
+2. Terminating the server at the end of the experiment_data
 ```
 docker rm -f cocotask
 ```

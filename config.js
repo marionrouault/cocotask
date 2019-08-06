@@ -7,10 +7,10 @@ function load_config() {
     };
 
     // general
-    config.ntrial = 1;//40;//per block
-    config.nblock = 1;//4;//per condition
+    config.ntrial = 2;//40;//per block
+    config.nblock = 4;//per condition
     config.inter_trial_interval = 300;
-    config.fixation_cue_duration = 500;//800;
+    config.fixation_cue_duration = 800;
     config.fixation_cue_width = 20;
     config.fixation_cue_height = 20;
     config.fixation_cue_thickness = 5;
@@ -20,8 +20,9 @@ function load_config() {
     config.stim_background_color = '#000000';
     config.initial_dotdiff = 50;
     config.numdots = 313;
-    config.scale = ["Au hasard", " ", " ", " ", " ", "Certain"];
-    config.choices = ["z", "e"];
+    config.scale = ["Guessing", " ", " ", " ", " ", "Certainly correct"];
+    config.global_scale = ["50 % (chance)", "60 %", "70 %", "80 %", "90 %", "100 % (perfect)"];
+    config.choices = ["w", "e"];
     config.stimulus_duration = 300;
     config.stim_feedback_size = 20;
     config.stim_feedback_duration = 500;
@@ -29,17 +30,17 @@ function load_config() {
     config.feedback_fontsize = 32;
     config.scale_width = 500;
 
-    // conditions
+    // conditions: plan more trials than necessary
     config.conditions = {
         high: {
             condition_name: "high",
-            ycorrect: [63, 76, 65, 64, 72, 58, 60, 57, 70, 66, 66, 69, 56, 81, 57, 75, 55, 73, 66, 72, 68, 79, 58, 55, 55, 79, 80, 77, 68, 57, 67, 62, 68, 59, 87, 56, 71, 68, 62, 74, 62, 63, 73, 74, 58, 71, 68, 66, 62, 57, 54, 59, 58, 59, 79, 66, 66, 59, 70, 52, 56, 67, 75, 62, 70, 74, 55, 61, 79, 65, 72, 73, 69, 78, 68, 55, 60, 58, 57, 60, 59, 58, 64, 60, 60, 55, 74, 57, 67, 49, 74, 64, 77, 52, 68, 70, 67, 65, 64, 62, 64, 60, 57, 74, 58, 63, 61, 74, 71, 51, 65, 62, 53, 62, 62, 74, 59, 81, 64, 71, 58, 58, 74, 69, 69, 62, 68, 62, 83, 64, 62, 55, 72, 67, 61, 68, 60, 57, 60, 56, 83, 71],
-            yincorrect: [49, 48, 52, 41, 36, 44, 46, 59, 44, 38, 40, 47, 54, 36, 42, 44, 57, 61, 57, 57, 45, 46, 48, 55, 57, 51, 46, 41, 44, 53, 52, 50, 54, 49, 47, 51, 51, 34, 37, 39, 39, 40, 57, 40, 49, 57, 50, 45, 62, 57, 52, 40, 45, 38, 50, 57, 51, 49]
+            ycorrect: [65,67,65,68,64,86,59,56,56,55,62,63,61,70,66,70,77,81,58,57,68,56,64,64,73,63,62,67,69,64,61,57,65,59,54,69,59,63,68,61,69,62,68,68,63,53,61,62,60,58,71,62,74,62,70,62,71,69,61,59,70,78,61,67,63,72,70,58,73,84,64,74,65,57,58,62,69,72,70,60,64,56,56,57,67,64,58,64,57,55,72,65,76,68,65,71,74,84,48,73,66,84,64,63,71,59,64,75,65,72,69,65,59,67,56,66,67,69,74,82,70,65,76,65,53,57,73,63,72,58,65,66,54,66,61,55,64,58,57,58,57,58,54,66,60,64,68,64,64,63,57,64,73,73,60,58,65,67,62,58,78,56,56,57,58,66,65,55,77,69,69,55,73,77,83,73,70,64,58,62,57],
+            yincorrect: [36,56,46,46,47,49,51,36,54,50,54,47,49,38,44,51,47,55,42,58,50,52,63,46,48,49,53,53,41,44,47,39,50,47,44,45,55,52,49,55,41,52,52,50,44,51,46,42,45,55,40,45,38,49,33,55,44,41,47,49,41,60,47,46,39,46,38,50,53,51,41,40,53,55]
         },
         low: {
             condition_name: "low",
-            ycorrect: [65, 56, 67, 59, 66, 60, 54, 51, 69, 72, 60, 53, 51, 74, 57, 69, 63, 70, 59, 63, 71, 69, 73, 64, 70, 78, 69, 50, 55, 69, 52, 81, 70, 86, 59, 69, 71, 61, 62, 65, 69, 66, 59, 71, 69, 57, 63, 54, 53, 67, 51, 56, 72, 65, 67, 80, 71, 69, 70, 58, 61, 58, 56, 58, 67, 62, 64, 56, 65, 70, 50, 84, 66, 81, 72, 48, 62, 59, 54, 73, 60, 61, 75, 61, 62, 74, 67, 67, 70, 71, 59, 43, 75, 52, 73, 79, 73, 67, 64, 62, 59, 51, 59, 72, 51, 54, 58, 71, 64, 59, 70, 73, 65, 64, 68, 59, 77, 53, 70, 59, 53, 64, 66, 65, 69, 55, 70, 70, 72, 64, 65, 57, 63, 85, 54, 59, 45, 71, 68, 71, 61, 71],
-            yincorrect: [56, 64, 55, 56, 34, 61, 45, 47, 45, 53, 53, 57, 59, 47, 64, 49, 45, 46, 43, 54, 55, 47, 54, 49, 57, 49, 52, 46, 51, 55, 41, 44, 44, 41, 56, 53, 59, 50, 54, 47, 54, 64, 54, 71, 35, 51, 52, 57, 56, 73, 47, 53, 39, 47, 53, 52, 48, 43]
+            ycorrect: [64,52,71,59,58,69,44,49,67,65,64,68,68,70,58,67,64,61,50,70,59,65,69,52,53,64,63,74,70,69,49,51,52,70,77,67,53,68,53,53,66,59,66,69,65,69,57,69,80,73,51,60,60,67,65,70,60,56,51,70,56,60,64,57,66,63,54,70,52,58,57,64,52,61,52,53,70,58,65,79,61,67,69,61,67,53,77,55,58,70,63,70,61,58,48,67,61,62,65,50,59,70,68,53,53,52,43,61,67,68,64,52,66,53,54,52,54,55,56,59,59,56,57,74,68,64,55,56,51,75,68,64,59,55,66,84,55,57,61,51,67,61,82,61,66,54,60,54,69,73,60,67,58,64,72,65,59,58,62,61,60,64,69,61,61,53,46,58,59,66,79,77,62,57,69,69,69,69,52,67,62],
+            yincorrect: [46,42,60,45,44,56,63,53,57,44,66,53,56,37,59,58,43,53,49,53,50,50,45,47,35,64,55,65,44,64,59,54,51,47,58,46,40,58,56,57,55,51,50,60,48,60,59,61,52,55,66,51,39,61,55,49,76,46,55,54,50,43,36,51,45,57,50,61,57,54,45,67,47,64]
         }
     };
     // cues
@@ -52,13 +53,22 @@ function load_config() {
         }
     };
     // instructions
-    config.main_instruction = ['<p >Bienvenue !</p><p >Votre tâche sera de juger laquelle de deux boîtes contient le plus de points, puis de donner une évaluation de votre confiance en chaque jugement.</p><p >Au début de chaque essai, une croix sera présentée au centre de l’écran. Focalisez votre attention dessus. Ensuite, deux boîtes noires contenant un certain nombre de points blancs seront présentées très rapidement et vous devrez juger laquelle des deux boîtes contient le plus de points.</p><p >Si la boîte de <strong>gauche</strong> contient le plus de points, <strong>appuyez sur Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, <strong> appuyez sur E</strong>.</p><p >Merci de répondre rapidement et le mieux possible.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle avec la souris.</p><p >Merci de faire de votre mieux pour évaluer votre confiance le plus précisement possible, et tirer profit de l’ensemble de l’échelle.</p><p >Appuyez sur la barre espace pour continuer.</p>'];
-    config.break_instruction = '<p >Rappel : <br>Si la boîte de <strong>gauche</strong> contient le plus de points, appuyez sur <strong>Z</strong>.<br> Si la boîte de <strong>droite</strong> contient le plus de points, appuyez sur <strong>E</strong>.</p><p ><br>Appuyez sur la barre espace pour continuer.</p>';
-    config.end_instruction = "<p>Bravo ! C’est terminé.<br></br>Appuyez sur la barre espace pour terminer l’expérience et enregistrer vos réponses.</p>";
+    config.main_instruction = ['<p>Welcome to the task!</p>' +
+    '<p>We will now ask you to judge which of two images contains more dots, before asking you to rate your confidence in your judgement.</p>' +
+    '<p>At the beginning of each trial, you will be presented with a black cross in the middle of the screen. Focus your attention on it. Then, two black boxes with a number of white dots will be flashed and you will be asked to judge which box had a higher number of dots.</p>' +
+    `<p>If the box on the <strong>left</strong> had more dots, <strong>press ${config.choices[0].toUpperCase()}</strong>.<br> If the box on the <strong>right</strong> had more dots, <strong>press ${config.choices[1].toUpperCase()}</strong>.</p>` +
+    '<p>Please respond quickly and to the best of your ability.</p>' +
+    '<p>You will then rate your confidence in your judgement on a scale with the mouse.</p>' +
+    '<p>Please do your best to rate your confidence accurately and do take advantage of the whole rating scale.</p>' +
+    '<p>Press spacebar to continue.</p>'];
+    config.consentpg = ['here needs text for consent form'];
+    config.break_instruction = '<p>As a reminder: <br>If the box on the <strong>left</strong> had more dots, press <strong>W</strong>.<br> If the box on the <strong>right</strong> had more dots, press <strong>E</strong>.</p>' +
+    '<p><br>Press spacebar to continue the task.</p>';
+    config.end_instruction = '<p>Thank you for your participation!<br></br>Your code is <strong>0ITPRF15</strong>.<br></br>Press spacebar to record your responses and finish.</p>';
 
     // practise
     config.practise = {};
-    config.practise.enable = false;
+    config.practise.enable = false;//true;
     config.practise.n = 26;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
@@ -71,36 +81,47 @@ function load_config() {
     config.practise.stim_background_color = '#000000';
     config.practise.initial_dotdiff = 50;
     config.practise.numdots = 313;
-    config.practise.choices = ["z", "e"];
+    config.practise.choices = ["w", "e"];
     config.practise.stimulus_duration = 300;
     config.practise.stim_feedback_size = 20;
     config.practise.stim_feedback_color = "#32CD32";
     config.practise.stim_feedback_duration = 500;
-    config.practise.instruction_stim = ['<p>Vous avez maintenant quelques essais pour vous entraîner. Merci de répondre seulement après que les points aient disparu de l’écran.</p><p >Pendant cette phase d’entraînement, on vous dira à chaque essai si votre réponse était correcte. <br></br>Si votre réponse était <strong>correcte</strong>, la boîte que vous avez choisie apparaîtra en <font color="green"><strong>vert</strong></font>. <br>Si votre réponse était <strong>incorrecte</strong>, la boîte que vous avez choisie apparaîtra en <font color="red"><strong>rouge</strong></font>.</p><p >Vous n’aurez pas besoin d’évaluer votre confiance pour ces essais d’entraînement.</p><p ><strong>C’est normal que la tâche soit difficile. Essayez simplement de faire de votre mieux.</strong></p><p >Appuyez sur la barre espace pour continuer.</p>'];
-    config.practise.instruction_survey = ['<p>Pendant l’expérience elle-même, on ne vous dira pas si votre réponse était correcte ou incorrecte, mais la boîte que vous avez choisie sera indiquée.</p><p >Vous devrez ensuite évaluer votre confiance en votre réponse sur une échelle d’évaluation, à chaque essai, ce que nous allons maintenant expliquer plus en détail.</p><p >Appuyez sur la barre espace pour continuer.</p>'];
+    config.practise.instruction_stim = ['<p>We will now ask you to carry out some practice trials. Please respond only when the dots have disappeared.</p>' +  
+    '<p>In this practice phase we will tell you whether your judgements are right or wrong. <br></br>If you are <strong>correct</strong>, the box that you selected will be outlined in <font color="green"><strong>green</strong></font>. <br>If you are <strong>incorrect</strong>, the box that you selected will be outlined in <font color="red"><strong>red</strong></font>.</p>' +
+    '<p>You will not need to rate your confidence of your judgements on these trials.</p>' +
+    '<p>It is expected that the judgements are difficult. Please just do your very best.</p>' +
+    '<p>Press spacebar to continue.</p>'];
+    config.practise.instruction_survey = ['<p>In the task proper, you will not be provided accuracy feedback on your judgements, but the box you selected will be outlined.</p>' +
+    '<p>You will be asked to rate your confidence in your judgement on a rating scale after each trial, which will be explained next.</p>' +
+    '<p>Press spacebar to continue.</p>'];
+
+
     config.practise.survey_questions = [{
-            prompt: '<p>Voici l’échelle d’évaluation qui sera employée pour tous les essais. Vous pourrez évaluer votre confiance en votre réponse en choisissant un point le long de l’échelle avec la souris. <br></br>Cliquez sur ‘Continuer’.</p><br>',
+            prompt: '<p>A rating scale as shown below is used throughout the task. You will be able to rate your confidence of your judgements by choosing any point along the rating scale with your mouse. <br></br>Click ‘Continue’.</p><br>',
             required: false,
             labels: config.scale
         },
         {
-            prompt: '<p>Pendant la tâche, si vous êtes <strong>très sûr(e)</strong> d avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ?</p>',
+            prompt: 'During the task, if you are <strong>very sure</strong> that you made the correct judgement, where on the scale would you choose?',
             required: true,
             labels: config.scale
         },
         {
-            prompt: '<p>Pendant la tâche, si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, où est-ce que vous répondriez sur l’échelle ? </p>',
+            prompt: 'During the task, if you are <strong>very unsure</strong> that you made the correct judgement, where on the scale would you choose?</p>',
             required: true,
             labels: config.scale
         },
         {
-            prompt: '<p>Si vous êtes <strong>très sûr(e)</strong> d’avoir choisi la bonne boîte, vous auriez dû répondre <strong>Certain</strong>.</p><p>Si vous n’êtes <strong>pas sûr(e) du tout</strong> d’avoir choisi la bonne boîte, vous auriez dû répondre <strong>Au hasard</strong>.</p><p>Appuyez sur continuer.</p>',
+            prompt: '<p>If you are <strong>very sure</strong> that you made the correct judgement, you should have responded <strong>Certainly Correct</strong>.</p>' +                         
+            '<p>If you are <strong>very unsure</strong> you made the correct judgement, you should have responded <strong>Guessing</strong>.</p>' + 
+            '<p>Click ‘Continue’.</p>',
             required: false,
             labels: config.scale
         },
         {
-            prompt: '<p>Si vous êtes <strong>peu sûr(e)</strong> de votre réponse, vous devrez choisir un point entre ces deux descriptions en fonction de votre confiance.</p><p>Essayez d’utiliser l’ensemble de l’échelle, en gardant à l’esprit que l’échelle représente une confiance relative. Sachant que la tâche est difficile, vous serez rarement complètement sûr(e)s que votre réponse est correcte.</p><p>Si vous avez bien compris comment utiliser et exploiter l’ensemble de l’échelle, cliquez sur ‘Continuer’.</p><br>',
-            required: false,
+            prompt: '<p>If you are <strong>somewhat sure</strong> about being correct, you should select a rating between the two descriptions.</p>' +
+            '<p>If you understand how to use and take advantage of the whole rating scale, choose any point on the rating scale and click ‘Continue’.</p><br>',
+            required: true,
             labels: config.scale
         }
 

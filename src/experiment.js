@@ -15,6 +15,11 @@ function generate_sequence(config, trial) {
         sequence.push(block);
         tbreak = generate_break(config);
         sequence.push([tbreak]);
+        if (j === config.nblock) {
+            // global task ability rating for each half of the experiment
+            glob_rating = generate_global_rating(config);
+            sequence.push([glob_rating]);
+        }
     }
     return sequence.reduce(function(a, b) {
         return a.concat(b);
@@ -22,6 +27,19 @@ function generate_sequence(config, trial) {
 }
 
 function generate_trial(config) {
+
+    var fullscreen = { //pb le montre tout le temps!!
+        on_start: function() {
+            show_cursor();
+        },
+        type: 'fullscreen',
+        fullscreen_mode: true,
+        check_fullscreen: false,
+        on_finish: function() {
+            remove_cursor();
+        }
+    };
+
     var stim = {
         type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
         fixation_cue_height: config.fixation_cue_height,
@@ -37,7 +55,7 @@ function generate_trial(config) {
         numdots: config.numdots,
         feedback_size: config.stim_feedback_size,
         feedback_color: jsPsych.timelineVariable('fixation_cue_color'),
-        prompt: `<p>Appuyez sur ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points, appuyez sur ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
+        prompt: `<p>Press ${config.practise.choices[0].toUpperCase()} if the box on the left had more dots. Press ${config.practise.choices[1].toUpperCase()} if the box on the right had more dots.</p>`,
         choices: config.choices,
         stimulus_duration: config.stimulus_duration,
         gap_endtrial: config.stim_feedback_duration,
@@ -49,11 +67,11 @@ function generate_trial(config) {
     var rating = {
         type: "custom-likert",
         questions: [{
-            prompt: "Evaluez votre confiance :",
+            prompt: "Rate your confidence:",
             labels: config.scale,
             required: true
         }],
-        button_label: "Continuer",
+        button_label: "Continue",
         on_start: function() {
             show_cursor();
         },
@@ -66,12 +84,15 @@ function generate_trial(config) {
             if (correct) {
                 dist = 'ycorrect';
             }
+
+            //var reward = jsPsych.timelineVariable(dist, true);
+            //reward = Array(reward).reverse().pop();
             var reward = jsPsych.timelineVariable(dist, true).reverse().pop();
+
             jsPsych.data.addDataToLastTrial({
                 condition_name: jsPsych.timelineVariable('condition_name'),
                 tag: "rating",
                 reward: reward
-
             });
             remove_cursor();
         }
@@ -95,7 +116,7 @@ function generate_trial(config) {
             condition_name: jsPsych.timelineVariable('condition_name')
         }
     };
-    return [stim, rating, feedback];
+    return [stim, rating, feedback];// add a trial by trial fullscreen
 };
 
 function generate_break(config) {
@@ -107,13 +128,37 @@ function generate_break(config) {
                 practise: false
             }).count();
             n = Math.floor(n / config.ntrial);
-            var instruction = '<p>Vous avez terminé ' + n + ' blocs sur ' + 2 * config.nblock + '.</p>';
+            var instruction = '<p>You can now pause for a break. You have completed ' + n + ' blocks out of ' + 2 * config.nblock + ' blocks.</p>';
             return [instruction + config.break_instruction];
         },
         key_forward: "space",
         show_clickable_nav: false,
         show_page_number: false,
         allow_backward: false
+    };
+}
+
+function generate_global_rating(config) {
+    return {
+        type: "custom-likert",
+        questions: [{
+            prompt: "<strong>We would like you to rate your overall ability at the task over this half of the experiment.</strong> <br></br> After responding using the scale below, click ‘Continue’ to carry on with the next block.",
+            labels: config.global_scale,
+            required: true
+        }],
+        button_label: "Continue",
+        on_start: function() {
+            show_cursor();
+        },
+        scale_width: config.scale_width,
+        on_finish: function() {
+            jsPsych.data.addDataToLastTrial({
+                condition_name: jsPsych.timelineVariable('condition_name'),
+                tag: "globrating",
+                reward: 999
+            });
+            remove_cursor();
+        }
     };
 }
 
@@ -158,7 +203,7 @@ function generate_practise_sequence(config) {
         numdots: config.practise.numdots,
         feedback_size: config.practise.stim_feedback_size,
         feedback_color: config.practise.stim_feedback_color,
-        prompt: `<p>Appuyez sur ${config.practise.choices[0].toUpperCase()} si l'image de gauche contient plus de points, appuyez sur ${config.practise.choices[1].toUpperCase()} si l'image de droite contient plus de points.</p>`,
+        prompt: `<p>Press ${config.practise.choices[0].toUpperCase()} if the box on the left had more dots. Press ${config.practise.choices[1].toUpperCase()} if the box on the right had more dots.</p>`,
         choices: config.practise.choices,
         stimulus_duration: config.practise.stimulus_duration,
         gap_endtrial: config.practise.stim_feedback_duration
@@ -187,7 +232,7 @@ function generate_practise_sequence(config) {
             },
             questions: [config.practise.survey_questions[i]],
             scale_width: config.scale_width,
-            button_label: "Continuer",
+            button_label: "Continue",
             on_finish: function() {
                 remove_cursor();
             }
@@ -213,6 +258,7 @@ function parse_timeline_variables(subject_id, config) {
     });
 }
 
+
 function generate_timeline(config) {
     var subject_id = Math.floor(Math.random() * 9000000) + 1000000;
     var tvariables = parse_timeline_variables(subject_id, config);
@@ -224,6 +270,28 @@ function generate_timeline(config) {
             remove_cursor();
         }
     });
+
+    starters.push({
+        type:'external-html',
+        url: 'consentpg_coco.html',
+        cont_btn: 'startbutton',
+        check_fn:function check_consent(elem) {
+                if (document.getElementById('consent_checkbox').checked) {
+                  return true;
+                }
+                else {
+                alert('If you wish to participate, you must check the box next to the statement: I agree to participate in this study.');
+                return false;
+              }
+        },
+        on_start: function() {
+                show_cursor();
+            },
+        on_finish: function() {
+            remove_cursor();
+        }
+    });
+
     starters.push({
         type: 'instructions',
         pages: config.main_instruction,
