@@ -7,7 +7,7 @@ function load_config() {
     };
 
     // general
-    config.ntrial = 2;//40;//per block
+    config.ntrial = 40;//per block
     config.nblock = 4;//per condition
     config.inter_trial_interval = 300;
     config.fixation_cue_duration = 800;
@@ -55,20 +55,19 @@ function load_config() {
     // instructions
     config.main_instruction = ['<p>Welcome to the task!</p>' +
     '<p>We will now ask you to judge which of two images contains more dots, before asking you to rate your confidence in your judgement.</p>' +
-    '<p>At the beginning of each trial, you will be presented with a black cross in the middle of the screen. Focus your attention on it. Then, two black boxes with a number of white dots will be flashed and you will be asked to judge which box had a higher number of dots.</p>' +
+    '<p>At the beginning of each trial, you will be presented with a cross in the middle of the screen. <strong>Focus your attention on it</strong>. Then, two black boxes with a number of white dots will be flashed and you will be asked to judge which box had a higher number of dots.</p>' +
     `<p>If the box on the <strong>left</strong> had more dots, <strong>press ${config.choices[0].toUpperCase()}</strong>.<br> If the box on the <strong>right</strong> had more dots, <strong>press ${config.choices[1].toUpperCase()}</strong>.</p>` +
     '<p>Please respond quickly and to the best of your ability.</p>' +
     '<p>You will then rate your confidence in your judgement on a scale with the mouse.</p>' +
     '<p>Please do your best to rate your confidence accurately and do take advantage of the whole rating scale.</p>' +
     '<p>Press spacebar to continue.</p>'];
-    config.consentpg = ['here needs text for consent form'];
     config.break_instruction = '<p>As a reminder: <br>If the box on the <strong>left</strong> had more dots, press <strong>W</strong>.<br> If the box on the <strong>right</strong> had more dots, press <strong>E</strong>.</p>' +
     '<p><br>Press spacebar to continue the task.</p>';
     config.end_instruction = '<p>Thank you for your participation!<br></br>Your code is <strong>0ITPRF15</strong>.<br></br>Press spacebar to record your responses and finish.</p>';
 
     // practise
     config.practise = {};
-    config.practise.enable = false;//true;
+    config.practise.enable = true;
     config.practise.n = 26;
     config.practise.fixation_cue_duration = 1000;
     config.practise.fixation_cue_height = 20;
@@ -92,9 +91,12 @@ function load_config() {
     '<p>It is expected that the judgements are difficult. Please just do your very best.</p>' +
     '<p>Press spacebar to continue.</p>'];
     config.practise.instruction_survey = ['<p>In the task proper, you will not be provided accuracy feedback on your judgements, but the box you selected will be outlined.</p>' +
-    '<p>You will be asked to rate your confidence in your judgement on a rating scale after each trial, which will be explained next.</p>' +
+    '<p>You will be asked to <strong>rate your confidence in your judgement</strong> on a rating scale after each trial, which will be explained next.</p>' +
     '<p>Press spacebar to continue.</p>'];
-
+    config.practise.instruction_rew = ['<p>After rating your confidence in your judgement, you will receive a number of points.</p>' +
+    '<p><strong><font color=red>These points will be accumulated during the experiment and directly converted into a monetary bonus, which will be added to your payment.</font></strong></p>' +
+    '<p><strong>Pay attention to the number of points you receive on each trial, and try to gain as many points as you can!</strong></p>' +
+    '<p>Press spacebar to continue.</p>'];
 
     config.practise.survey_questions = [{
             prompt: '<p>A rating scale as shown below is used throughout the task. You will be able to rate your confidence of your judgements by choosing any point along the rating scale with your mouse. <br></br>Click ‘Continue’.</p><br>',

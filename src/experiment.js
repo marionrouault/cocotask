@@ -28,18 +28,6 @@ function generate_sequence(config, trial) {
 
 function generate_trial(config) {
 
-    var fullscreen = { //pb le montre tout le temps!!
-        on_start: function() {
-            show_cursor();
-        },
-        type: 'fullscreen',
-        fullscreen_mode: true,
-        check_fullscreen: false,
-        on_finish: function() {
-            remove_cursor();
-        }
-    };
-
     var stim = {
         type: 'double-dot-stim', // previously image-keyboard-reponse-edited2
         fixation_cue_height: config.fixation_cue_height,
@@ -85,10 +73,8 @@ function generate_trial(config) {
                 dist = 'ycorrect';
             }
 
-            //var reward = jsPsych.timelineVariable(dist, true);
-            //reward = Array(reward).reverse().pop();
             var reward = jsPsych.timelineVariable(dist, true).reverse().pop();
-
+            jsPsych.timelineVariable(dist, true).reverse();
             jsPsych.data.addDataToLastTrial({
                 condition_name: jsPsych.timelineVariable('condition_name'),
                 tag: "rating",
@@ -116,7 +102,7 @@ function generate_trial(config) {
             condition_name: jsPsych.timelineVariable('condition_name')
         }
     };
-    return [stim, rating, feedback];// add a trial by trial fullscreen
+    return [stim, rating, feedback]; // we can add fullscreen but pb to check if already in fullscreen + pb de different cursors
 };
 
 function generate_break(config) {
@@ -128,7 +114,7 @@ function generate_break(config) {
                 practise: false
             }).count();
             n = Math.floor(n / config.ntrial);
-            var instruction = '<p>You can now pause for a break. You have completed ' + n + ' blocks out of ' + 2 * config.nblock + ' blocks.</p>';
+            var instruction = '<p>You can now pause for a break. You have completed ' + n + ' blocks out of ' + 2 * config.nblock + ' blocks.<br></br> <strong>Remember: the points you are accumulating will be converted into your monetary bonus!</strong></p>';
             return [instruction + config.break_instruction];
         },
         key_forward: "space",
@@ -238,6 +224,14 @@ function generate_practise_sequence(config) {
             }
         });
     }
+    practise.push({
+        type: 'instructions',
+        pages: config.practise.instruction_rew,
+        key_forward: "space",
+        show_clickable_nav: false,
+        show_page_number: false,
+        allow_backward: false
+    });
     return practise;
 }
 
@@ -270,7 +264,6 @@ function generate_timeline(config) {
             remove_cursor();
         }
     });
-
     starters.push({
         type:'external-html',
         url: 'consentpg_coco.html',
